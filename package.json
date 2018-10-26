@@ -1,0 +1,41 @@
+{
+  "name": "toread",
+  "version": "1.0.0",
+  "description": "To Read Project",
+  "main": "index.js",
+  "scripts": {
+    "start": "node lib/index.js",
+    "type-check": "tsc --noEmit",
+    "build": "npm run build-types && npm run build-js",
+    "build-types": "tsc --emitDeclarationOnly",
+    "build-js": "babel src --out-dir lib --extensions \".ts,.tsx\" --source-maps inline",
+    "test": "jest",
+    "testWithCoverage": "jest --coverage"
+  },
+  "bin": {
+    "to-read": "./lib/index.js"
+  },
+  "author": "Leonardo Teteo",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/cli": "^7.0.0",
+    "@babel/core": "^7.0.0",
+    "@babel/plugin-proposal-class-properties": "^7.0.0",
+    "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "@babel/preset-typescript": "^7.0.0",
+    "@types/jest": "^23.3.1",
+    "jest": "^23.5.0",
+    "ts-jest": "^23.1.4",
+    "typescript": "^3.0.1"
+  },
+  "dependencies": {
+    "@akanass/rx-http-request": "^3.0.0",
+    "@types/jsdom": "^11.0.6",
+    "@types/opn": "^5.1.0",
+    "commander": "^2.17.1",
+    "jsdom": "^12.0.0",
+    "opn": "^5.4.0",
+    "rxjs": "^6.3.1"
+  }
+}
