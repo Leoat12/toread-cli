@@ -4,7 +4,7 @@
 
 **The project is under development and any help is welcome!**
 
-### How to Install app
+### How to Install the app
 
 This project is still under development so please, don't expect an easy way to run this. Maybe later we will try to make it as an NPM Package but for now, do this:
 
