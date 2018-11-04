@@ -1,6 +1,10 @@
 import { Storage } from "../src/storage";
 import * as fs from "fs";
 
+afterEach(() => {
+    fs.unlinkSync("file.json");
+});
+
 test("write", () => {
     let storage = new Storage();
     storage.saveArticle({
@@ -9,7 +13,55 @@ test("write", () => {
         description: "Description test"
     });
     expect(fs.existsSync("file.json")).toBe(true);
-    fs.unlinkSync("file.json");
+});
+
+test("updateAddingTags", () => {
+    let storage = new Storage();
+    let savedArticle = storage.saveArticle({
+        title: "Teste",
+        url: "http://www.example.com",
+        description: "Description test",
+        tags: ["Tag1", "Tag2"]
+    });
+
+    if(savedArticle.tags) savedArticle.tags.push("Tag3");
+    savedArticle.description = "Description test modified";
+
+    if(savedArticle.id){
+        let updatedArticle = storage.updateArticle(savedArticle.id, true, savedArticle.description, ["Tag3"]);
+        if(updatedArticle){
+            expect(updatedArticle.description).toBe("Description test modified");
+            expect(updatedArticle.tags).toEqual(["Tag1", "Tag2", "Tag3"]);
+        } else {
+            fail("Updated Article is undefined.");
+        }
+    } else {
+        fail("Article ID null");
+    }
+});
+
+test("updateRemovingTags", () => {
+    let storage = new Storage();
+    let savedArticle = storage.saveArticle({
+        title: "Teste",
+        url: "http://www.example.com",
+        description: "Description test",
+        tags: ["Tag1", "Tag2"]
+    });
+
+    savedArticle.description = "Description test modified";
+
+    if(savedArticle.id){
+        let updatedArticle = storage.updateArticle(savedArticle.id, false, savedArticle.description, ["Tag2"]);
+        if(updatedArticle){
+            expect(updatedArticle.description).toBe("Description test modified");
+            expect(updatedArticle.tags).toEqual(["Tag1"]);
+        } else {
+            fail("Updated Article is undefined.");
+        }
+    } else {
+        fail("Article ID null");
+    }
 });
 
 test("getAll", () => {
@@ -22,7 +74,6 @@ test("getAll", () => {
 
     let articles = storage.getArticles();
     expect(articles.length).toBe(1);
-    fs.unlinkSync("file.json");
 });
 
 test("getOne", () => {
@@ -37,9 +88,9 @@ test("getOne", () => {
     expect(article).toEqual({
         id: 1,
         title: "Teste",
+        url: "http://www.example.com",
         description: "Description test"
     });
-    fs.unlinkSync("file.json");
 });
 
 test("delete", () => {
@@ -55,5 +106,4 @@ test("delete", () => {
     } else {
         fail("Article not deleted");
     }
-    fs.unlinkSync("file.json");
 });

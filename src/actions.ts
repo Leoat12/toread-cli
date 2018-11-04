@@ -48,6 +48,18 @@ export class Actions {
         );
     }
 
+    static updateArticle(id: number, addTags: boolean, description?: string, tags?: string): void{
+        
+        let tagsArray = tags ? tags.split(",") : undefined;
+        let updatedArticle = this.storage.updateArticle(id, addTags, description, tagsArray);
+
+        if(updatedArticle){
+            Display.printArticle(updatedArticle, PresentationMode.ONE);
+        } else {
+            Display.printUpdateErrorMessage(id);
+        }
+    }
+
     static deleteArticle(id: number) {
         let result: boolean = this.storage.deleteArticle(id);
         if (result) {
