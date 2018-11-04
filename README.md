@@ -23,7 +23,7 @@ To use it you have can just type `to-read` and then the type of action you want 
 
 !Ex. `to-read <action>`
 
-Here the list of action you can run (for now):
+Here is the list of actions you can run (for now):
 
 - `saveArticle <url>` or `sa <url>` To save article.
   - `--tags <your tags>` or `-t <your tags>` To add tags to your article, each tag separated by comma.
