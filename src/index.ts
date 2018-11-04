@@ -21,13 +21,26 @@ Commander.command("open <id>")
 
 Commander.command("saveArticle <url>")
     .alias("sa")
-    .option("-i, --information <info>", "Subject of the article")
-    .option("-t, --tags <tags>", "Tags separated by comma")
+    .option("-i, --information <info>", "Description of the article.")
+    .option("-t, --tags <tags>", "Tags separated by comma.")
     .description("Saves an article.")
     .action((url: string, cmd: Command) => {
         let description: string = cmd.opts()["information"];
         let tags: string = cmd.opts()["tags"];
         Actions.saveArticle(url, description, tags);
+    });
+
+Commander.command("updateArticle <id>")
+    .alias("ua")
+    .option("-i, --information <info>", "Description of the article.")
+    .option("-t, --tags <tags>", "Tags separated by comma.")
+    .option("-a, --addTags <addTags>", "Whether or not the tags given will be deleted (false) or added (true)")
+    .description("Update an article's information. Only description and tags can be changed.")
+    .action((id: number, cmd: Command) => {
+        let description: string = cmd.opts()["information"];
+        let tags: string = cmd.opts()["tags"];
+        let addTags: boolean = cmd.opts()["addTags"] == "true" ? true : false;
+        Actions.updateArticle(id, addTags, description, tags);
     });
 
 Commander.command("deleteArticle <id>")

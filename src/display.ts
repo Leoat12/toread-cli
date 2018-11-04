@@ -55,4 +55,9 @@ export class Display {
             "The article was not found. Verify the ID of the article.";
         console.info(chalk`{red.bold ${message}}`);
     }
+
+    static printUpdateErrorMessage(id: number){
+        let message = "The article could not be updated. Verify the ID and the command.";
+        console.info(chalk`{red.bold ${message}}`);
+    }
 }

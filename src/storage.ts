@@ -47,28 +47,29 @@ export class Storage {
         return article;
     }
 
-    updateArticle(article: Article, addTags: boolean): Article | undefined {
+    updateArticle(id: number, addTags: boolean, description?: string, tags?: string[]): Article | undefined {
         this.prepareDB();
-
+        
         let file: FileStructure = JSON.parse(
             fs.readFileSync("file.json", "utf8")
         );
         let existentArticle: Article | undefined = file.articles.find(
-            a => a.id === article.id
+            a => a.id == id
         );
+        
         if (existentArticle) {
-            file.articles = file.articles.filter(a => a.id !== article.id);
+            file.articles = file.articles.filter(a => a.id !== id);
 
-            if (article.description)
-                existentArticle.description = article.description;
-            if (article.tags) {
+            if (description)
+                existentArticle.description = description;
+            if (tags) {
                 if (existentArticle.tags) {
-                    if (addTags) {
-                        for (const tag of article.tags) {
+                    if (addTags.valueOf() == true) {
+                        for (const tag of tags) {
                             existentArticle.tags.push(tag);
                         }
                     } else {
-                        for (const tag of article.tags) {
+                        for (const tag of tags) {
                             existentArticle.tags = existentArticle.tags.filter(
                                 (value, index, arr) => {
                                     return value !== tag;
@@ -79,7 +80,7 @@ export class Storage {
                 } else {
                     if (addTags) {
                         existentArticle.tags = [];
-                        for (const tag of article.tags) {
+                        for (const tag of tags) {
                             existentArticle.tags.push(tag);
                         }
                     }
@@ -88,6 +89,8 @@ export class Storage {
 
             file.articles.push(existentArticle);
             fs.writeFileSync("file.json", JSON.stringify(file));
+
+            return existentArticle;
         } else {
             return undefined;
         }
