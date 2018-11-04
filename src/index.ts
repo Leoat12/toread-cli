@@ -37,4 +37,11 @@ Commander.command("deleteArticle <id>")
         Actions.deleteArticle(id);
     });
 
+Commander.command("clearArticles")
+    .alias("clearAll")
+    .description("Delete all articles")
+    .action(() => {
+        Actions.clearArticles();
+    });
+
 Commander.parse(process.argv);

@@ -1,5 +1,7 @@
 import { RxHR } from "@akanass/rx-http-request";
+import * as fs from "fs";
 import { JSDOM } from "jsdom";
+import colors from "colors";
 import chalk from "chalk";
 import opn from "opn";
 
@@ -12,9 +14,13 @@ export class Actions {
 
     static getArticles(): void {
         let articles: Article[] = this.storage.getArticles();
-        articles.forEach(a => {
-            Display.printArticle(a, PresentationMode.LIST);
-        });
+        if (!fs.existsSync("file.json")) {
+            articles.forEach(a => {
+                Display.printArticle(a, PresentationMode.LIST);
+            });
+        } else {
+            console.info("%s", colors.red(`There's no article you saved.`));
+        }
     }
 
     static openArticle(id: number): void {
@@ -57,6 +63,17 @@ export class Actions {
         } else {
             console.info(
                 chalk`{bold.red An error ocurred while deleting the article, verify if it exists.}`
+            );
+        }
+    }
+
+    static clearArticles(): void {
+        let result: boolean = this.storage.clearArticles();
+        if (result) {
+            console.info(chalk`{bold.green All Articles are deleted.}`);
+        } else {
+            console.info(
+                chalk`{bold.red An error ocurred while removing all articles.}`
             );
         }
     }
