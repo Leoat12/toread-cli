@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
-import Commander from "commander";
-import {Command} from "commander";
+import Commander, {Command} from "commander";
 import {Actions} from "./actions";
 
 Commander
