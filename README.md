@@ -9,7 +9,8 @@ This project is still under development so please don't expect easy way to do th
 1. Clone this repository
 `git clone <url>`
 
-2. Cd to inside the folder
+2. cd to the folder
+`cd toread-cli`
 
 3. And run `npm install`
 
