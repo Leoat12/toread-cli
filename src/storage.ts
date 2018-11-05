@@ -40,7 +40,7 @@ export class Storage {
         let file: FileStructure = JSON.parse(
             fs.readFileSync("file.json", "utf8")
         );
-        file.index += file.index + 1;
+        file.index += 1;
         article.id = file.index;
         file.articles.push(article);
         fs.writeFileSync("file.json", JSON.stringify(file));
