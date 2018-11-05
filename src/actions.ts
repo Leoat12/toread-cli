@@ -1,5 +1,5 @@
 import { RxHR } from "@akanass/rx-http-request";
-import * as fs from "fs";
+import inquirer from "inquirer";
 import { JSDOM } from "jsdom";
 import colors from "colors";
 import chalk from "chalk";
@@ -14,12 +14,12 @@ export class Actions {
 
     static getArticles(): void {
         let articles: Article[] = this.storage.getArticles();
-        if (!fs.existsSync("file.json")) {
+        if (articles.length < 1) {
+            console.info("%s", colors.red(`There's no article you saved.`));
+        } else {
             articles.forEach(a => {
                 Display.printArticle(a, PresentationMode.LIST);
             });
-        } else {
-            console.info("%s", colors.red(`There's no article you saved.`));
         }
     }
 
@@ -75,6 +75,45 @@ export class Actions {
             console.info(
                 chalk`{bold.red An error ocurred while removing all articles.}`
             );
+        }
+    }
+
+    static openAll(): void {
+        const articles: Article[] = this.storage.getArticles();
+        let question: any[] = [];
+        if (articles.length < 1) {
+            console.log("%s", colors.red("You don't have articles to open."));
+        } else {
+            articles.forEach(article => {
+                const obj = {
+                    name: article.title + " -> " + colors.blue.bold(article.url)
+                };
+                question.push(obj);
+            });
+            inquirer
+                .prompt([
+                    {
+                        type: "checkbox",
+                        message: "Select Articles to open",
+                        name: "articles",
+                        choices: [...question],
+                        validate: function(answer) {
+                            if (answer.length < 1) {
+                                return "You must choose at least one article.";
+                            }
+                            return true;
+                        }
+                    }
+                ])
+                .then(answers => {
+                    const value = Object.values(answers);
+                    const arrVal = Object.values(value[0]);
+                    const art = articles
+                        .filter((val, i) => {
+                            return val.title === arrVal[i];
+                        })
+                        .forEach(v => opn(v.url));
+                });
         }
     }
 }

@@ -37,11 +37,18 @@ Commander.command("deleteArticle <id>")
         Actions.deleteArticle(id);
     });
 
-Commander.command("clearArticles")
-    .alias("clearAll")
+Commander.command("clearStorage")
+    .alias("cla")
     .description("Delete all articles")
     .action(() => {
         Actions.clearArticles();
+    });
+
+Commander.command("opens")
+    .alias("ops")
+    .description("Open the selected article in the default browser.")
+    .action(() => {
+        Actions.openAll();
     });
 
 Commander.parse(process.argv);
