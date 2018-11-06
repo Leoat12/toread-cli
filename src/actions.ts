@@ -111,8 +111,8 @@ export class Actions {
                     const art = articles
                         .filter((val, i) => {
                             return val.title === arrVal[i];
-                        })
-                        .forEach(v => opn(v.url));
+                        });
+                    art.forEach(v => opn(v.url));
                 });
         }
     }
