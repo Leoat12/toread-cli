@@ -86,7 +86,10 @@ export class Actions {
         } else {
             articles.forEach(article => {
                 const obj = {
-                    name: article.title + " -> " + colors.blue.bold(article.url)
+                    name:
+                        article.title +
+                        " -> " +
+                        colors.blue.underline(article.url)
                 };
                 question.push(obj);
             });
@@ -108,11 +111,14 @@ export class Actions {
                 .then(answers => {
                     const value = Object.values(answers);
                     const arrVal = Object.values(value[0]);
-                    const art = articles
-                        .filter((val, i) => {
-                            return val.title === arrVal[i];
-                        });
-                    art.forEach(v => opn(v.url));
+                    const art = articles.filter((article, i) => {
+                        const toStr: String = arrVal[i].toString();
+                        const splitStr = toStr.split(" -> ");
+                        return article.title === splitStr[0];
+                    });
+                    art.forEach(article => {
+                        opn(article.url);
+                    });
                 });
         }
     }
