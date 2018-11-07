@@ -26,15 +26,27 @@ To use it you can just type `to-read <action>` and then the type of action you w
 Here is the list of actions you can run (for now):
 
 - `saveArticle <url>` or `sa <url>` To save article.
-  - `--tags <your tags>` or `-t <your tags>` To add tags to your article, each tag separated by comma.
-  - `--information <your info>` or `-i <your info>` To add description to the article.
-- `list` or `ls`
-  To see all the list of article you have saved.
-- `open <id>` or `o <id>`
-  To open the saved article by the id.
+
+   *Optional
+   
+   - `--tags <your tags>` or `-t <your tags>` To add tags to your article, each tag separated by comma.
+   - `--information <your info>` or `-i <your info>` To add description to the article.
+  
+- `updateArticle <id>` or `ua <id>`  To update an article's information.
+
+   *Optional
+   
+   - `--tags <your tags>` or `-t <your tags>` To add tags to your article, each tag separated by comma.
+   - `--information <your info>` or `-i <your info>` To add description to the article.
+   - `--addTags <true/false>` or `-a` To check whether or not you want to add the tags or delete the tags given in `--tags`.
+
+- `list` or `ls`  To see all the list of article you have saved.
+
+- `open <id>` or `o <id>`  To open the saved article by the id.
+
 - `opens` or `ops` To open the selected article. With this you can easily select multiple articles and open it at once on your default browser.
-- `deleteArticle <id>` or `da <id>`
-  To delete the article by the id.
+- `deleteArticle <id>` or `da <id>`  To delete the article by the id.
+
 - `clearStorage` or `cla` To clear or remove all article at once.
 
 ### Features developed
