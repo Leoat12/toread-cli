@@ -13,6 +13,7 @@ This project is still under development so please, don't expect an easy way to r
 1. Open your terminal.
 
 2. Clone this repository :
+   <<<<<<< HEAD
 
 ```
 $ git clone https://github.com/Leoat12/toread-cli.git
@@ -38,6 +39,8 @@ To use it you can just type `to-read <action>` and then the type of action you w
 
 ### **Here is the list of actions that you can run (for now)**:
 
+<<<<<<< HEAD
+
 > Note: You will see this symbol " | " in every `<action>`, and it means an alias of the action. So you can choose to use the left or the right side.
 
 #### List of Actions
@@ -52,7 +55,7 @@ To use it you can just type `to-read <action>` and then the type of action you w
 
 > You can click the action to see the use of it or you can go [here to see full documentation](http://example.com/ "Title").
 
----
+## =======
 
 ### Features developed
 
