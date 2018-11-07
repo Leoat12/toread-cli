@@ -88,8 +88,8 @@ test("getOne", () => {
     expect(article).toEqual({
         id: 1,
         title: "Teste",
-        url: "http://www.example.com",
-        description: "Description test"
+        description: "Description test",
+        url: "http://www.example.com"
     });
 });
 
