@@ -2,49 +2,67 @@
 
 ## A CLI to save and organize your development (and others) readings!
 
-**The project is under development and any help is welcome!**
+**The project is still under development and any help is welcome!**
 
-### How to Install the app
+---
+
+## Install
 
 This project is still under development so please, don't expect an easy way to run this. Maybe later we will try to make it as an NPM Package but for now, do this:
 
 1. Open your terminal.
 
-2. Clone this repository
-   `git clone <url>`
+2. Clone this repository :
 
-3. And run `cd toread-cli && npm install`
+```
+$ git clone https://github.com/Leoat12/toread-cli.git
+```
 
-4. Then run this `npm install -g ./` this will install the app as an NPM package on your local machine.
+3. Run this :
 
-### How to use the app
+```
+$ cd toread-cli && npm install
+```
+
+4. Then install it as npm package :
+
+```
+$ npm install -g ./
+```
+
+---
+
+## Usage
 
 To use it you can just type `to-read <action>` and then the type of action you want to run.
 
-!Ex. `to-read list`
+### **Here is the list of actions that you can run (for now)**:
 
-Here is the list of actions you can run (for now):
+> Note: You will see this symbol " | " in every `<action>`, and it means an alias of the action. So you can choose to use the left or the right side.
 
-- `saveArticle <url>` or `sa <url>` To save article.
-  - `--tags <your tags>` or `-t <your tags>` To add tags to your article, each tag separated by comma.
-  - `--information <your info>` or `-i <your info>` To add description to the article.
-- `list` or `ls`
-  To see all the list of article you have saved.
-- `open <id>` or `o <id>`
-  To open the saved article by the id.
-- `opens` or `ops` To open the selected article. With this you can easily select multiple articles and open it at once on your default browser.
-- `deleteArticle <id>` or `da <id>`
-  To delete the article by the id.
-- `clearStorage` or `cla` To clear or remove all article at once.
+#### List of Actions
+
+- `saveArticle <url>`
+- `updateArticle <id>`
+- `list`
+- `open <id>`
+- `opens`
+- `deleteArticle <id>`
+- `clearStorage`
+
+> You can click the action to see the use of it or you can go [here to see full documentation](http://example.com/ "Title").
+
+---
 
 ### Features developed
 
-- Save an article. Just give the URL and the title of the article will be extracted from the website.
-- Tag your articles to make it more organized.
-- Get a list of all articles saved.
-- Open multiple article at once.
-- Delete an article.
-- Open an article in your default browser using its ID.
+- [x] Save an article. Just give the URL and the title of the article will be extracted from the website.
+- [x] Tag your articles to make it more organized.
+- [x] Get a list of all articles saved.
+- [x] Open multiple article at once.
+- [x] Delete an article.
+- [x] Open an article in your default browser using its ID.
+- [x] Update article tags and information.
 
 ### Features to be developed
 
