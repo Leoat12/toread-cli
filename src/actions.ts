@@ -1,5 +1,7 @@
 import { RxHR } from "@akanass/rx-http-request";
+import inquirer from "inquirer";
 import { JSDOM } from "jsdom";
+import colors from "colors";
 import chalk from "chalk";
 import opn from "opn";
 
@@ -12,9 +14,13 @@ export class Actions {
 
     static getArticles(): void {
         let articles: Article[] = this.storage.getArticles();
-        articles.forEach(a => {
-            Display.printArticle(a, PresentationMode.LIST);
-        });
+        if (articles.length < 1) {
+            console.info("%s", colors.red(`There's no article you saved.`));
+        } else {
+            articles.forEach(a => {
+                Display.printArticle(a, PresentationMode.LIST);
+            });
+        }
     }
 
     static openArticle(id: number): void {
@@ -70,6 +76,62 @@ export class Actions {
             console.info(
                 chalk`{bold.red An error ocurred while deleting the article, verify if it exists.}`
             );
+        }
+    }
+
+    static clearArticles(): void {
+        let result: boolean = this.storage.clearArticles();
+        if (result) {
+            console.info(chalk`{bold.green All Articles are deleted.}`);
+        } else {
+            console.info(
+                chalk`{bold.red An error ocurred while removing all articles.}`
+            );
+        }
+    }
+
+    static openAll(): void {
+        const articles: Article[] = this.storage.getArticles();
+        let question: any[] = [];
+        if (articles.length < 1) {
+            console.log("%s", colors.red("You don't have articles to open."));
+        } else {
+            articles.forEach(article => {
+                const obj = {
+                    name:
+                        article.title +
+                        " -> " +
+                        colors.blue.underline(article.url)
+                };
+                question.push(obj);
+            });
+            inquirer
+                .prompt([
+                    {
+                        type: "checkbox",
+                        message: "Select Articles to open",
+                        name: "articles",
+                        choices: [...question],
+                        validate: function(answer) {
+                            if (answer.length < 1) {
+                                return "You must choose at least one article.";
+                            }
+                            return true;
+                        }
+                    }
+                ])
+                .then(answers => {
+                    const value = Object.values(answers);
+                    const arrVal = Object.values(value[0]);
+                    const art = articles.filter((article, i) => {
+                        const toStr: String = arrVal[i].toString();
+                        const splitStr = toStr.split(" -> ");
+                        return article.title === splitStr[0];
+                    });
+                    art.forEach(article => {
+                        opn(article.url);
+                    });
+                });
         }
     }
 }

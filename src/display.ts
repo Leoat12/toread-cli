@@ -1,4 +1,5 @@
 import chalk from "chalk";
+import colors from "colors";
 
 import { Article } from "./article";
 
@@ -12,9 +13,9 @@ export class Display {
         if (mode === PresentationMode.LIST) {
             if (article.id) {
                 console.info(
-                    chalk`{bold.underline.red ${article.id.toString()} - ${
-                        article.title
-                    }}`
+                    chalk`{bold.underline.green ${article.id.toString()}#} ` +
+                        chalk`{bold.underline.green ${article.title}}` +
+                        colors.grey(" -> " + article.url)
                 );
                 this.printTags(article.tags);
                 console.info("\n");
@@ -26,14 +27,15 @@ export class Display {
                 console.info(chalk`{bold.white ${article.description}}`);
 
             this.printTags(article.tags);
+            console.info("\n");
         }
     }
 
     static printTags(tags?: string[]) {
         if (tags && tags.length > 0) {
             for (let tag of tags) {
-                tag = " ".concat(tag).concat(" ");
-                process.stdout.write(chalk`{bgWhite.bold.blue ${tag}} `);
+                tag = "[".concat(tag).concat("]");
+                process.stdout.write(`${colors.green(tag)}`);
             }
 
             process.stdout.write(`\n`);

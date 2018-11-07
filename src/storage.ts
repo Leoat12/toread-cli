@@ -21,6 +21,7 @@ export class Storage {
         let file: FileStructure = JSON.parse(
             fs.readFileSync("file.json", "utf8")
         );
+
         return file.articles;
     }
 
@@ -110,6 +111,16 @@ export class Storage {
         if (file.articles.length > updatedArticleArray.length) {
             file.articles = updatedArticleArray;
             fs.writeFileSync("file.json", JSON.stringify(file));
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    clearArticles(): boolean {
+        fs.unlinkSync("./file.json");
+
+        if (!fs.existsSync("file.json")) {
             return true;
         } else {
             return false;
