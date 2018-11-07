@@ -54,12 +54,21 @@ export class Actions {
         );
     }
 
-    static updateArticle(id: number, addTags: boolean, description?: string, tags?: string): void{
-        
+    static updateArticle(
+        id: number,
+        addTags: boolean,
+        description?: string,
+        tags?: string
+    ): void {
         let tagsArray = tags ? tags.split(",") : undefined;
-        let updatedArticle = this.storage.updateArticle(id, addTags, description, tagsArray);
+        let updatedArticle = this.storage.updateArticle(
+            id,
+            addTags,
+            description,
+            tagsArray
+        );
 
-        if(updatedArticle){
+        if (updatedArticle) {
             Display.printArticle(updatedArticle, PresentationMode.ONE);
         } else {
             Display.printUpdateErrorMessage(id);
@@ -131,6 +140,49 @@ export class Actions {
                     art.forEach(article => {
                         opn(article.url);
                     });
+                });
+        }
+    }
+
+    static deleteAll(): void {
+        const articles: Article[] = this.storage.getArticles();
+        let question: any[] = [];
+        if (articles.length < 1) {
+            console.log("%s", colors.red("You don't have articles to delete."));
+        } else {
+            articles.forEach(article => {
+                const obj = {
+                    name:
+                        article.title +
+                        " -> " +
+                        colors.blue.underline(article.url)
+                };
+                question.push(obj);
+            });
+            inquirer
+                .prompt([
+                    {
+                        type: "checkbox",
+                        message: "Select Articles to open",
+                        name: "articles",
+                        choices: [...question],
+                        validate: function(answer) {
+                            if (answer.length < 1) {
+                                return "You must choose at least one article.";
+                            }
+                            return true;
+                        }
+                    }
+                ])
+                .then(answers => {
+                    const value = Object.values(answers);
+                    const arrVal = Object.values(value[0]);
+                    const art = articles.filter((article, i) => {
+                        const toStr: String = arrVal[i].toString();
+                        const splitStr = toStr.split(" -> ");
+                        return article.title === splitStr[0];
+                    });
+                    this.storage.deleteAll(art);
                 });
         }
     }

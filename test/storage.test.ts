@@ -24,13 +24,20 @@ test("updateAddingTags", () => {
         tags: ["Tag1", "Tag2"]
     });
 
-    if(savedArticle.tags) savedArticle.tags.push("Tag3");
+    if (savedArticle.tags) savedArticle.tags.push("Tag3");
     savedArticle.description = "Description test modified";
 
-    if(savedArticle.id){
-        let updatedArticle = storage.updateArticle(savedArticle.id, true, savedArticle.description, ["Tag3"]);
-        if(updatedArticle){
-            expect(updatedArticle.description).toBe("Description test modified");
+    if (savedArticle.id) {
+        let updatedArticle = storage.updateArticle(
+            savedArticle.id,
+            true,
+            savedArticle.description,
+            ["Tag3"]
+        );
+        if (updatedArticle) {
+            expect(updatedArticle.description).toBe(
+                "Description test modified"
+            );
             expect(updatedArticle.tags).toEqual(["Tag1", "Tag2", "Tag3"]);
         } else {
             fail("Updated Article is undefined.");
@@ -51,10 +58,17 @@ test("updateRemovingTags", () => {
 
     savedArticle.description = "Description test modified";
 
-    if(savedArticle.id){
-        let updatedArticle = storage.updateArticle(savedArticle.id, false, savedArticle.description, ["Tag2"]);
-        if(updatedArticle){
-            expect(updatedArticle.description).toBe("Description test modified");
+    if (savedArticle.id) {
+        let updatedArticle = storage.updateArticle(
+            savedArticle.id,
+            false,
+            savedArticle.description,
+            ["Tag2"]
+        );
+        if (updatedArticle) {
+            expect(updatedArticle.description).toBe(
+                "Description test modified"
+            );
             expect(updatedArticle.tags).toEqual(["Tag1"]);
         } else {
             fail("Updated Article is undefined.");
@@ -103,6 +117,16 @@ test("delete", () => {
     if (storage.deleteArticle(1)) {
         let articles = storage.getArticles();
         expect(articles.length).toBe(0);
+    } else {
+        fail("Article not deleted");
+    }
+});
+
+test("clearStorage", () => {
+    let storage = new Storage();
+    storage.clearArticles();
+    if (!fs.existsSync("file.json")) {
+        expect(fs.existsSync("file.json")).toBe(false);
     } else {
         fail("Article not deleted");
     }

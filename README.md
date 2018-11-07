@@ -1,8 +1,8 @@
 # ToRead CLI
 
-## A CLI to save and organize your development (and others) readings!
+## A CLI application to save and organize your development (and others) readings!
 
-**The project is still under development and any help is welcome!**
+> **The project is still under development and any help is welcome!**
 
 ---
 
