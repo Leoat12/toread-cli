@@ -38,7 +38,7 @@ Here is the list of actions you can run (for now):
    
    - `--tags <your tags>` or `-t <your tags>` To add tags to your article, each tag separated by comma.
    - `--information <your info>` or `-i <your info>` To add description to the article.
-   - `--addTags <true/false>` or `-a` To check whether or not you want to add the tags or delete the tags given in `--tags`.
+   - `--addTags <true/false>` or `-a` To check whether or not you want to add the tags (true) or delete the tags (false) given in `--tags`.
 
 - `list` or `ls`  To see all the list of article you have saved.
 
