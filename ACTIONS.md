@@ -69,3 +69,9 @@ $ to-read clearStorage | cla
 ```
 
 > Use this if you want to clear all the article in you storage. It will remove all the data you saved.
+
+---
+
+Please just ignore the `< >` part.
+
+> Ex. `saveArticle <url>` is same with `saveArticle url`. Change the url with your article's url.

@@ -34,11 +34,13 @@ $ npm install -g ./
 
 ## Usage
 
-To use it you can just type `to-read <action>` and then the type of action you want to run.
+To use it you can just type,
 
-### **Here is the list of actions that you can run (for now)**:
+```
+$ to-read <action>
+```
 
-> Note: You will see this symbol " | " in every `<action>`, and it means an alias of the action. So you can choose to use the left or the right side.
+#### **Here is the list of actions that you can run (for now)**:
 
 - [`saveArticle <url>`](./ACTIONS.md#-savearticle-url)
 - [`updateArticle <id>`](./ACTIONS.md#-updatearticle-id)
@@ -52,21 +54,24 @@ To use it you can just type `to-read <action>` and then the type of action you w
 
 ---
 
-## Features To Do
+## Features Developed
 
-- [x] Save an article. Just give the URL and the title of the article will be extracted from the website.
-- [x] Tag your articles to make it more organized.
-- [x] Get a list of all articles saved.
-- [x] Open multiple article at once.
-- [x] Delete an article.
-- [x] Open an article in your default browser using its ID.
-- [x] Update article tags and information.
-- [ ] Update an article with a status: "To Read", "Reading", "Read", among others.
-- [ ] Search by tags.
-- [ ] Archive articles.
-- [ ] Delete article by selecting it. So, we don't need to know the id of each article.
-- [ ] Backup to the cloud (Google Drive or any other storage service).
-- [ ] Sync your articles through multiple PCs.
-- [ ] Make the styling more cool.
+- Save an article. Just give the URL and the title of the article will be extracted from the website.
+- Tag your articles to make it more organized.
+- Get a list of all articles saved.
+- Open multiple article at once.
+- Delete an article.
+- Open an article in your default browser using its ID.
+- Update article tags and information.
+
+## Features To Develop
+
+- Update an article with a status: "To Read", "Reading", "Read", among others.
+- Search by tags.
+- Archive articles.
+- Delete article by selecting it. So, we don't need to know the id of each article.
+- Backup to the cloud (Google Drive or any other storage service).
+- Sync your articles through multiple PCs.
+- Make the styling more cool.
 
 Please feel free to give comments about the features listed and suggest new ones.
