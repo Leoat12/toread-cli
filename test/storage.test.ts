@@ -30,6 +30,7 @@ test("updateAddingTags", () => {
     if(savedArticle.id){
         let updatedArticle = storage.updateArticle(savedArticle.id, true, savedArticle.description, ["Tag3"]);
         if(updatedArticle){
+            expect(storage.getArticles().filter(a => updatedArticle != undefined && a.id == updatedArticle.id).length).toBe(1);
             expect(updatedArticle.description).toBe("Description test modified");
             expect(updatedArticle.tags).toEqual(["Tag1", "Tag2", "Tag3"]);
         } else {
@@ -54,6 +55,7 @@ test("updateRemovingTags", () => {
     if(savedArticle.id){
         let updatedArticle = storage.updateArticle(savedArticle.id, false, savedArticle.description, ["Tag2"]);
         if(updatedArticle){
+            expect(storage.getArticles().filter(a => updatedArticle != undefined && a.id == updatedArticle.id).length).toBe(1);
             expect(updatedArticle.description).toBe("Description test modified");
             expect(updatedArticle.tags).toEqual(["Tag1"]);
         } else {

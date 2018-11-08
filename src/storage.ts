@@ -59,7 +59,7 @@ export class Storage {
         );
         
         if (existentArticle) {
-            file.articles = file.articles.filter(a => a.id !== id);
+            file.articles = file.articles.filter(a => a.id != id);
 
             if (description)
                 existentArticle.description = description;
