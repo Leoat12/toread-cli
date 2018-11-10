@@ -49,26 +49,21 @@ export class Storage {
         return article;
     }
 
-    updateArticle(
-        id: number,
-        addTags: boolean,
-        description?: string,
-        tags?: string[]
-    ): Article | undefined {
+    updateArticle(id: number, addTags: boolean, description?: string, tags?: string[]): Article | undefined {
         this.prepareDB();
-
+        
         let file: FileStructure = JSON.parse(
             fs.readFileSync("file.json", "utf8")
         );
-
         let existentArticle: Article | undefined = file.articles.find(
             a => a.id == id
         );
-
+        
         if (existentArticle) {
-            file.articles = file.articles.filter(a => a.id !== id);
+            file.articles = file.articles.filter(a => a.id != id);
 
-            if (description) existentArticle.description = description;
+            if (description)
+                existentArticle.description = description;
             if (tags) {
                 if (existentArticle.tags) {
                     if (addTags.valueOf() == true) {
@@ -93,6 +88,8 @@ export class Storage {
                     }
                 }
             }
+
+            file.articles.push(existentArticle);
             fs.writeFileSync("file.json", JSON.stringify(file));
 
             return existentArticle;
@@ -100,6 +97,7 @@ export class Storage {
             return undefined;
         }
     }
+
 
     deleteArticle(id: number): boolean {
         this.prepareDB();
