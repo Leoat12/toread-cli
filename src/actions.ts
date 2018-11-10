@@ -2,7 +2,6 @@ import { RxHR } from "@akanass/rx-http-request";
 import inquirer from "inquirer";
 import { JSDOM } from "jsdom";
 import colors from "colors";
-import chalk from "chalk";
 import opn from "opn";
 
 import { Article, Status } from "./article";
@@ -15,7 +14,7 @@ export class Actions {
     static getArticles(): void {
         let articles: Article[] = this.storage.getArticles();
         if (articles.length < 1) {
-            console.info("%s", colors.red(`There's no article you saved.`));
+            Display.printGetArticlesErrorMessage();
         } else {
             articles.forEach(a => {
                 Display.printArticle(a, PresentationMode.LIST);
@@ -69,40 +68,27 @@ export class Actions {
 
     static deleteArticle(id: number) {
         let result: boolean = this.storage.deleteArticle(id);
-        if (result) {
-            console.info(
-                chalk`{bold.green Article with ID ${id.toString()} deleted successfully}`
-            );
-        } else {
-            console.info(
-                chalk`{bold.red An error ocurred while deleting the article, verify if it exists.}`
-            );
-        }
+        Display.printDeleteArticleMessage(result, id);
+        
     }
 
     static clearArticles(): void {
         let result: boolean = this.storage.clearArticles();
-        if (result) {
-            console.info(chalk`{bold.green All Articles are deleted.}`);
-        } else {
-            console.info(
-                chalk`{bold.red An error ocurred while removing all articles.}`
-            );
-        }
+        Display.printClearAllMessage(result);
     }
 
     static openAll(): void {
         const articles: Article[] = this.storage.getArticles();
         let question: any[] = [];
         if (articles.length < 1) {
-            console.log("%s", colors.red("You don't have articles to open."));
+            Display.printOpenAllErrorMessage();
         } else {
             articles.forEach(article => {
                 const obj = {
                     name:
                         article.title +
                         " -> " +
-                        colors.blue.underline(article.url)
+                        colors.red(article.status)
                 };
                 question.push(obj);
             });
@@ -123,11 +109,13 @@ export class Actions {
                 ])
                 .then(answers => {
                     const value = Object.values(answers);
-                    const arrVal = Object.values(value[0]);
+                    const arrVal : string[] = Object.values(value[0]);
+                    let titles: string[] = [];
+                    arrVal.forEach(ar => {
+                        titles.push(ar.split(" -> ")[0])
+                    });
                     const art = articles.filter((article, i) => {
-                        const toStr: String = arrVal[i].toString();
-                        const splitStr = toStr.split(" -> ");
-                        return article.title === splitStr[0];
+                        return titles.includes(article.title);
                     });
                     art.forEach(article => {
                         opn(article.url);
