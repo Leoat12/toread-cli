@@ -97,7 +97,8 @@ test("getOne", () => {
         id: 1,
         title: "Teste",
         description: "Description test",
-        url: "http://www.example.com"
+        url: "http://www.example.com",
+        status: Status.ToRead
     });
 });
 
