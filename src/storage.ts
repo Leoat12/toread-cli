@@ -1,5 +1,4 @@
 import * as fs from "fs";
-import colors from "colors";
 
 import { Article } from "./article";
 
@@ -98,7 +97,6 @@ export class Storage {
         }
     }
 
-
     deleteArticle(id: number): boolean {
         this.prepareDB();
 
@@ -117,25 +115,6 @@ export class Storage {
         } else {
             return false;
         }
-    }
-
-    deleteAll(art: Article[]): void {
-        art.forEach(article => {
-            this.prepareDB();
-
-            let file: FileStructure = JSON.parse(
-                fs.readFileSync("file.json", "utf8")
-            );
-            let updatedArticleArray: Article[] = file.articles.filter(
-                a => a.id != article.id
-            );
-            file.articles = updatedArticleArray;
-            fs.writeFileSync("file.json", JSON.stringify(file));
-        });
-        console.log(
-            "%s",
-            colors.blue("The selected articles has been deleted")
-        );
     }
 
     clearArticles(): boolean {
