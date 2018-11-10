@@ -1,6 +1,6 @@
 import * as fs from "fs";
 
-import { Article } from "./article";
+import { Article, Status } from "./article";
 
 interface FileStructure {
     articles: Article[];
@@ -48,7 +48,7 @@ export class Storage {
         return article;
     }
 
-    updateArticle(id: number, addTags: boolean, description?: string, tags?: string[]): Article | undefined {
+    updateArticle(id: number, addTags: boolean, description?: string, tags?: string[], status?: Status): Article | undefined {
         this.prepareDB();
         
         let file: FileStructure = JSON.parse(
@@ -87,6 +87,9 @@ export class Storage {
                     }
                 }
             }
+
+            if (status)
+                existentArticle.status = status;
 
             file.articles.push(existentArticle);
             fs.writeFileSync("file.json", JSON.stringify(file));

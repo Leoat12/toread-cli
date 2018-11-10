@@ -13,9 +13,9 @@ export class Display {
         if (mode === PresentationMode.LIST) {
             if (article.id) {
                 console.info(
-                    chalk`{bold.underline.green ${article.id.toString()}#} ` +
+                    chalk`{bold.underline.green #${article.id.toString()}} ` +
                         chalk`{bold.underline.green ${article.title}}` +
-                        colors.grey(" -> " + article.url)
+                        colors.red(" -> " + article.status)
                 );
                 this.printTags(article.tags);
                 console.info("\n");

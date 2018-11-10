@@ -1,5 +1,6 @@
 import { Storage } from "../src/storage";
 import * as fs from "fs";
+import { Status } from "../src/article";
 
 afterEach(() => {
     fs.unlinkSync("file.json");
@@ -10,7 +11,8 @@ test("write", () => {
     storage.saveArticle({
         title: "Teste",
         url: "http://www.example.com",
-        description: "Description test"
+        description: "Description test",
+        status: Status.ToRead
     });
     expect(fs.existsSync("file.json")).toBe(true);
 });
@@ -21,7 +23,8 @@ test("updateAddingTags", () => {
         title: "Teste",
         url: "http://www.example.com",
         description: "Description test",
-        tags: ["Tag1", "Tag2"]
+        tags: ["Tag1", "Tag2"],
+        status: Status.ToRead
     });
 
     if(savedArticle.tags) savedArticle.tags.push("Tag3");
@@ -47,7 +50,8 @@ test("updateRemovingTags", () => {
         title: "Teste",
         url: "http://www.example.com",
         description: "Description test",
-        tags: ["Tag1", "Tag2"]
+        tags: ["Tag1", "Tag2"],
+        status: Status.ToRead
     });
 
     savedArticle.description = "Description test modified";
@@ -71,7 +75,8 @@ test("getAll", () => {
     storage.saveArticle({
         title: "Teste",
         url: "http://www.example.com",
-        description: "Description test"
+        description: "Description test",
+        status: Status.ToRead
     });
 
     let articles = storage.getArticles();
@@ -83,7 +88,8 @@ test("getOne", () => {
     storage.saveArticle({
         title: "Teste",
         url: "http://www.example.com",
-        description: "Description test"
+        description: "Description test",
+        status: Status.ToRead
     });
 
     let article = storage.getArticle(1);
@@ -100,7 +106,8 @@ test("delete", () => {
     storage.saveArticle({
         title: "Teste",
         url: "http://www.example.com",
-        description: "Description test"
+        description: "Description test",
+        status: Status.ToRead
     });
     if (storage.deleteArticle(1)) {
         let articles = storage.getArticles();

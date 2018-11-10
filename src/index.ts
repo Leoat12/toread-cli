@@ -2,6 +2,7 @@
 
 import Commander, { Command } from "commander";
 import { Actions } from "./actions";
+import { Status } from "./article";
 
 Commander.version("1.0.0").description("To Read Project CLI");
 
@@ -35,12 +36,14 @@ Commander.command("updateArticle <id>")
     .option("-i, --information <info>", "Description of the article.")
     .option("-t, --tags <tags>", "Tags separated by comma.")
     .option("-a, --addTags <addTags>", "Whether or not the tags given will be deleted (false) or added (true)")
-    .description("Update an article's information. Only description and tags can be changed.")
+    .option("-s, --status <status>", "The status of article: 'TO READ', 'READING' or 'READ'")
+    .description("Update an article's information. Only description, tags and status can be changed.")
     .action((id: number, cmd: Command) => {
         let description: string = cmd.opts()["information"];
         let tags: string = cmd.opts()["tags"];
         let addTags: boolean = cmd.opts()["addTags"] == "true" ? true : false;
-        Actions.updateArticle(id, addTags, description, tags);
+        let status: Status = cmd.opts()["status"];
+        Actions.updateArticle(id, addTags, description, tags, status);
     });
 
 Commander.command("deleteArticle <id>")

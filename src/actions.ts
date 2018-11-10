@@ -5,7 +5,7 @@ import colors from "colors";
 import chalk from "chalk";
 import opn from "opn";
 
-import { Article } from "./article";
+import { Article, Status } from "./article";
 import { Storage } from "./storage";
 import { Display, PresentationMode } from "./display";
 
@@ -39,7 +39,8 @@ export class Actions {
                         title: title,
                         url: url,
                         description: description,
-                        tags: tags ? tags.split(",") : []
+                        tags: tags ? tags.split(",") : [],
+                        status: Status.ToRead
                     };
 
                     Actions.storage.saveArticle(article);
@@ -54,10 +55,10 @@ export class Actions {
         );
     }
 
-    static updateArticle(id: number, addTags: boolean, description?: string, tags?: string): void{
+    static updateArticle(id: number, addTags: boolean, description?: string, tags?: string, status?: Status): void{
         
         let tagsArray = tags ? tags.split(",") : undefined;
-        let updatedArticle = this.storage.updateArticle(id, addTags, description, tagsArray);
+        let updatedArticle = this.storage.updateArticle(id, addTags, description, tagsArray, status);
 
         if(updatedArticle){
             Display.printArticle(updatedArticle, PresentationMode.ONE);
