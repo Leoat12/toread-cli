@@ -1,43 +1,60 @@
 # ToRead CLI
 
-## A CLI to save and organize your development (and others) readings!
+## A CLI application to save and organize your development (and others) readings!
 
-**The project is under development and any help is welcome!**
+> **The project is still under development and any help is welcome!**
 
-### How to Install the app
+---
+
+## Install
 
 This project is still under development so please, don't expect an easy way to run this. Maybe later we will try to make it as an NPM Package but for now, do this:
 
 1. Open your terminal.
 
-2. Clone this repository
-   `git clone <url>`
+2. Clone this repository :
 
-3. And run `cd toread-cli && npm install`
+```
+$ git clone https://github.com/Leoat12/toread-cli.git
+```
 
-4. Then run this `npm install -g ./` this will install the app as an NPM package on your local machine.
+3. Run this :
 
-### How to use the app
+```
+$ cd toread-cli && npm install
+```
 
-To use it you can just type `to-read <action>` and then the type of action you want to run.
+4. Then install it as npm package :
 
-!Ex. `to-read list`
+```
+$ npm install -g ./
+```
 
-Here is the list of actions you can run (for now):
+---
 
-- `saveArticle <url>` or `sa <url>` To save article.
-  - `--tags <your tags>` or `-t <your tags>` To add tags to your article, each tag separated by comma.
-  - `--information <your info>` or `-i <your info>` To add description to the article.
-- `list` or `ls`
-  To see all the list of article you have saved.
-- `open <id>` or `o <id>`
-  To open the saved article by the id.
-- `opens` or `ops` To open the selected article. With this you can easily select multiple articles and open it at once on your default browser.
-- `deleteArticle <id>` or `da <id>`
-  To delete the article by the id.
-- `clearStorage` or `cla` To clear or remove all article at once.
+## Usage
 
-### Features developed
+To use it you can just type,
+
+```
+$ to-read <action>
+```
+
+#### **Here is the list of actions that you can run (for now)**:
+
+- [`saveArticle <url>`](./ACTIONS.md#-savearticle-url)
+- [`updateArticle <id>`](./ACTIONS.md#-updatearticle-id)
+- [`list`](./ACTIONS.md#-list)
+- [`open <id>`](./ACTIONS.md#-open-id)
+- [`opens`](./ACTIONS.md#-opens)
+- [`deleteArticle <id>`](./ACTIONS.md#-deletearticle-id)
+- [`clearStorage`](./ACTIONS.md#-clearstorage)
+
+> You can click the action to see full docs of the action or you can go [here to see the full documentation](./ACTIONS.md "LIST OF ACTIONS").
+
+---
+
+## Features Developed
 
 - Save an article. Just give the URL and the title of the article will be extracted from the website.
 - Tag your articles to make it more organized.

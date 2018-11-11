@@ -48,21 +48,26 @@ export class Storage {
         return article;
     }
 
-    updateArticle(id: number, addTags: boolean, description?: string, tags?: string[], status?: Status): Article | undefined {
+    updateArticle(
+        id: number,
+        addTags: boolean,
+        description?: string,
+        tags?: string[],
+        status?: Status
+    ): Article | undefined {
         this.prepareDB();
-        
+
         let file: FileStructure = JSON.parse(
             fs.readFileSync("file.json", "utf8")
         );
         let existentArticle: Article | undefined = file.articles.find(
             a => a.id == id
         );
-        
+
         if (existentArticle) {
             file.articles = file.articles.filter(a => a.id != id);
 
-            if (description)
-                existentArticle.description = description;
+            if (description) existentArticle.description = description;
             if (tags) {
                 if (existentArticle.tags) {
                     if (addTags.valueOf() == true) {
@@ -88,8 +93,7 @@ export class Storage {
                 }
             }
 
-            if (status)
-                existentArticle.status = status;
+            if (status) existentArticle.status = status;
 
             file.articles.push(existentArticle);
             fs.writeFileSync("file.json", JSON.stringify(file));
@@ -118,6 +122,21 @@ export class Storage {
         } else {
             return false;
         }
+    }
+
+    deleteAll(art: Article[]): void {
+        art.forEach(article => {
+            this.prepareDB();
+
+            let file: FileStructure = JSON.parse(
+                fs.readFileSync("file.json", "utf8")
+            );
+            let updatedArticleArray: Article[] = file.articles.filter(
+                a => a.id != article.id
+            );
+            file.articles = updatedArticleArray;
+            fs.writeFileSync("file.json", JSON.stringify(file));
+        });
     }
 
     clearArticles(): boolean {
