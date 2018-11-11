@@ -12,15 +12,16 @@ export class Display {
         if (mode === PresentationMode.LIST) {
             if (article.id) {
                 console.info(
-                    colors.bold.underline.green(`#${article.id.toString()}`) + 
-                    colors.bold.underline.green(` ${article.title}`) + 
-                    colors.red(` -> ${article.status}`));
+                    colors.bold.underline.green(`#${article.id.toString()}`) +
+                        colors.bold.underline.green(` ${article.title}`) +
+                        colors.red(` -> ${article.status}`)
+                );
                 this.printTags(article.tags);
                 console.info("\n");
             }
         } else if (mode === PresentationMode.ONE) {
-            console.info(colors.bold.underline.red(article.title))
-            
+            console.info(colors.bold.underline.red(article.title));
+
             if (article.description)
                 console.info(colors.bold.white(article.description));
 
@@ -44,45 +45,56 @@ export class Display {
         if (code === 200) {
             console.info(colors.bold.white(`Article saved successfully!`));
         } else {
-            console.error(colors.bold.red(`An error occurred while getting article information: ${code}`));
+            console.error(
+                colors.bold.red(
+                    `An error occurred while getting article information: ${code}`
+                )
+            );
         }
     }
 
-    static printDeleteArticleMessage(result: boolean, id:number){
+    static printDeleteArticleMessage(result: boolean, id: number) {
         if (result) {
             console.info(
-                colors.bold.green(`Article #${id.toString()} deleted successfully`)
+                colors.bold.green(
+                    `Article #${id.toString()} deleted successfully`
+                )
             );
         } else {
             console.info(
-                colors.bold.red(`An error ocurred while deleting the article #${id.toString()}, verify if it exists.`)
+                colors.bold.red(
+                    `An error ocurred while deleting the article #${id.toString()}, verify if it exists.`
+                )
             );
         }
     }
 
-    static printClearAllMessage(result: boolean){
+    static printClearAllMessage(result: boolean) {
         if (result) {
             console.info(colors.bold.green(`All Articles are deleted.`));
         } else {
-            console.info(colors.bold.red(`An error ocurred while removing all articles.`));
+            console.info(
+                colors.bold.red(`An error ocurred while removing all articles.`)
+            );
         }
     }
 
     static printOpenErrorMessage() {
-        let message = "The article was not found. Verify the ID of the article.";
+        let message =
+            "The article was not found. Verify the ID of the article.";
         console.info(colors.bold.red(message));
     }
 
-    static printUpdateErrorMessage(id: number){
+    static printUpdateErrorMessage(id: number) {
         let message = `The article with ID ${id} could not be updated. Verify the ID and the command.`;
         console.info(colors.bold.red(message));
     }
 
-    static printGetArticlesErrorMessage(){
+    static printGetArticlesErrorMessage() {
         console.info("%s", colors.red(`There's no article you saved.`));
     }
 
-    static printOpenAllErrorMessage(){
+    static printOpenAllErrorMessage() {
         console.log("%s", colors.red("You don't have articles to open."));
     }
 }

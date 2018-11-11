@@ -35,9 +35,17 @@ Commander.command("updateArticle <id>")
     .alias("ua")
     .option("-i, --information <info>", "Description of the article.")
     .option("-t, --tags <tags>", "Tags separated by comma.")
-    .option("-a, --addTags <addTags>", "Whether or not the tags given will be deleted (false) or added (true)")
-    .option("-s, --status <status>", "The status of article: 'TO READ', 'READING' or 'READ'")
-    .description("Update an article's information. Only description, tags and status can be changed.")
+    .option(
+        "-a, --addTags <addTags>",
+        "Whether or not the tags given will be deleted (false) or added (true)"
+    )
+    .option(
+        "-s, --status <status>",
+        "The status of article: 'TO READ', 'READING' or 'READ'"
+    )
+    .description(
+        "Update an article's information. Only description, tags and status can be changed."
+    )
     .action((id: number, cmd: Command) => {
         let description: string = cmd.opts()["information"];
         let tags: string = cmd.opts()["tags"];
@@ -65,6 +73,13 @@ Commander.command("opens")
     .description("Open the selected article in the default browser.")
     .action(() => {
         Actions.openAll();
+    });
+
+Commander.command("delete")
+    .alias("dlt")
+    .description("Delete the selected article.")
+    .action(() => {
+        Actions.deleteAll();
     });
 
 Commander.parse(process.argv);
