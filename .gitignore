@@ -1,4 +1,6 @@
 .vscode
+.idea
 lib
 node_modules
 file.json
+toread-cli.iml

@@ -1,45 +1,48 @@
 import { RxHR } from "@akanass/rx-http-request";
+import colors from "colors";
 import inquirer from "inquirer";
 import { JSDOM } from "jsdom";
-import colors from "colors";
 import opn from "opn";
 
 import { Article, Status } from "./article";
-import { Storage } from "./storage";
 import { Display, PresentationMode } from "./display";
+import { Storage } from "./storage";
 
 export class Actions {
-    static storage: Storage = new Storage();
+    public static storage: Storage = new Storage();
 
-    static getArticles(): void {
-        let articles: Article[] = this.storage.getArticles();
+    public static getArticles(): void {
+        const articles: Article[] = this.storage.getArticles();
         if (articles.length < 1) {
             Display.printGetArticlesErrorMessage();
         } else {
-            articles.forEach(a => {
+            articles.forEach((a) => {
                 Display.printArticle(a, PresentationMode.LIST);
             });
         }
     }
 
-    static openArticle(id: number): void {
-        let article = this.storage.getArticle(id);
-        if (article) opn(article.url);
-        else Display.printOpenErrorMessage();
+    public static openArticle(id: number): void {
+        const article = this.storage.getArticle(id);
+        if (article) {
+            opn(article.url);
+        } else {
+            Display.printOpenErrorMessage();
+        }
     }
 
-    static saveArticle(url: string, description: string, tags?: string): void {
+    public static saveArticle(url: string, description: string, tags?: string): void {
         RxHR.get(url).subscribe(
             (data: any) => {
                 if (data.response.statusCode === 200) {
-                    let window = new JSDOM(data.body).window;
-                    let title = window.document.title;
-                    let article: Article = {
-                        title: title,
-                        url: url,
-                        description: description,
+                    const window = new JSDOM(data.body).window;
+                    const title = window.document.title;
+                    const article: Article = {
+                        description,
+                        status: Status.ToRead,
                         tags: tags ? tags.split(",") : [],
-                        status: Status.ToRead
+                        title,
+                        url,
                     };
 
                     Actions.storage.saveArticle(article);
@@ -50,11 +53,11 @@ export class Actions {
                     Display.printSaveArticleMessage(data.response.statusCode);
                 }
             },
-            (err: any) => console.error(err) // Show error in console
+            (err: any) => console.error(err), // Show error in console
         );
     }
 
-    static updateArticle(id: number, addTags: boolean, description?: string, tags?: string, status?: Status): void{
+    public static updateArticle(id: number, addTags: boolean, description?: string, tags?: string, status?: Status): void{
         
         let tagsArray = tags ? tags.split(",") : undefined;
         let updatedArticle = this.storage.updateArticle(id, addTags, description, tagsArray, status);
@@ -66,18 +69,18 @@ export class Actions {
         }
     }
 
-    static deleteArticle(id: number) {
+    public static deleteArticle(id: number) {
         let result: boolean = this.storage.deleteArticle(id);
         Display.printDeleteArticleMessage(result, id);
         
     }
 
-    static clearArticles(): void {
+    public static clearArticles(): void {
         let result: boolean = this.storage.clearArticles();
         Display.printClearAllMessage(result);
     }
 
-    static openAll(): void {
+    public static openAll(): void {
         const articles: Article[] = this.storage.getArticles();
         let question: any[] = [];
         if (articles.length < 1) {

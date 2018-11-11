@@ -45,10 +45,10 @@ Here is the list of actions you can run (for now):
 - Open multiple article at once.
 - Delete an article.
 - Open an article in your default browser using its ID.
+- Update an article with a status: "To Read", "Reading", "Read", among others.
 
 ### Features to be developed
 
-- Update an article with a status: "To Read", "Reading", "Read", among others.
 - Search by tags.
 - Archive articles.
 - Delete article by selecting it. So, we don't need to know the id of each article.
