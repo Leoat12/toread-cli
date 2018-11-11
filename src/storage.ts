@@ -1,6 +1,6 @@
 import * as fs from "fs";
 
-import { Article, Status } from "./article";
+import {Article, Status} from "./article";
 
 interface FileStructure {
     articles: Article[];
@@ -8,37 +8,30 @@ interface FileStructure {
 }
 
 export class Storage {
-    prepareDB() {
-        if (!fs.existsSync("file.json")) {
-            let file: FileStructure = { articles: [], index: 0 };
-            fs.writeFileSync("file.json", JSON.stringify(file));
-        }
-    }
-
-    getArticles(): Article[] {
+    public getArticles(): Article[] {
         this.prepareDB();
 
-        let file: FileStructure = JSON.parse(
-            fs.readFileSync("file.json", "utf8")
+        const file: FileStructure = JSON.parse(
+            fs.readFileSync("file.json", "utf8"),
         );
 
         return file.articles;
     }
 
-    getArticle(id: number): Article | undefined {
+    public getArticle(id: number): Article | undefined {
         this.prepareDB();
 
-        let file: FileStructure = JSON.parse(
-            fs.readFileSync("file.json", "utf8")
+        const file: FileStructure = JSON.parse(
+            fs.readFileSync("file.json", "utf8"),
         );
-        return file.articles.find(a => a.id == id);
+        return file.articles.find((a) => a.id == id);
     }
 
-    saveArticle(article: Article): Article {
+    public saveArticle(article: Article): Article {
         this.prepareDB();
 
-        let file: FileStructure = JSON.parse(
-            fs.readFileSync("file.json", "utf8")
+        const file: FileStructure = JSON.parse(
+            fs.readFileSync("file.json", "utf8"),
         );
         file.index += 1;
         article.id = file.index;
@@ -48,26 +41,28 @@ export class Storage {
         return article;
     }
 
-    updateArticle(
+    public updateArticle(
         id: number,
         addTags: boolean,
         description?: string,
         tags?: string[],
-        status?: Status
+        status?: Status,
     ): Article | undefined {
         this.prepareDB();
 
-        let file: FileStructure = JSON.parse(
-            fs.readFileSync("file.json", "utf8")
+        const file: FileStructure = JSON.parse(
+            fs.readFileSync("file.json", "utf8"),
         );
-        let existentArticle: Article | undefined = file.articles.find(
-            a => a.id == id
+        const existentArticle: Article | undefined = file.articles.find(
+            (a) => a.id == id,
         );
 
         if (existentArticle) {
-            file.articles = file.articles.filter(a => a.id != id);
+            file.articles = file.articles.filter((a) => a.id != id);
 
-            if (description) existentArticle.description = description;
+            if (description) {
+                existentArticle.description = description;
+            }
             if (tags) {
                 if (existentArticle.tags) {
                     if (addTags.valueOf() == true) {
@@ -77,9 +72,9 @@ export class Storage {
                     } else {
                         for (const tag of tags) {
                             existentArticle.tags = existentArticle.tags.filter(
-                                (value, index, arr) => {
+                                (value) => {
                                     return value !== tag;
-                                }
+                                },
                             );
                         }
                     }
@@ -93,8 +88,9 @@ export class Storage {
                 }
             }
 
-            if (status) existentArticle.status = status;
-
+            if (status) {
+                existentArticle.status = status;
+            }
             file.articles.push(existentArticle);
             fs.writeFileSync("file.json", JSON.stringify(file));
 
@@ -104,15 +100,15 @@ export class Storage {
         }
     }
 
-    deleteArticle(id: number): boolean {
+    public deleteArticle(id: number): boolean {
         this.prepareDB();
 
-        let file: FileStructure = JSON.parse(
-            fs.readFileSync("file.json", "utf8")
+        const file: FileStructure = JSON.parse(
+            fs.readFileSync("file.json", "utf8"),
         );
 
-        let updatedArticleArray: Article[] = file.articles.filter(
-            a => a.id != id
+        const updatedArticleArray: Article[] = file.articles.filter(
+            (a) => a.id != id,
         );
 
         if (file.articles.length > updatedArticleArray.length) {
@@ -124,28 +120,34 @@ export class Storage {
         }
     }
 
-    deleteAll(art: Article[]): void {
-        art.forEach(article => {
+    public deleteAll(art: Article[]): void {
+        art.forEach((article) => {
             this.prepareDB();
 
-            let file: FileStructure = JSON.parse(
-                fs.readFileSync("file.json", "utf8")
+            const file: FileStructure = JSON.parse(
+                fs.readFileSync("file.json", "utf8"),
             );
-            let updatedArticleArray: Article[] = file.articles.filter(
-                a => a.id != article.id
+            file.articles = file.articles.filter(
+                (a) => a.id != article.id,
             );
-            file.articles = updatedArticleArray;
             fs.writeFileSync("file.json", JSON.stringify(file));
         });
     }
 
-    clearArticles(): boolean {
+    public clearArticles(): boolean {
         fs.unlinkSync("./file.json");
 
         if (!fs.existsSync("file.json")) {
             return true;
         } else {
             return false;
+        }
+    }
+
+    private prepareDB() {
+        if (!fs.existsSync("file.json")) {
+            const file: FileStructure = { articles: [], index: 0 };
+            fs.writeFileSync("file.json", JSON.stringify(file));
         }
     }
 }
