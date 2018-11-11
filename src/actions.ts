@@ -162,11 +162,13 @@ export class Actions {
                 ])
                 .then(answers => {
                     const value = Object.values(answers);
-                    const arrVal = Object.values(value[0]);
+                    const arrVal: string[] = Object.values(value[0]);
+                    let titles: string[] = [];
+                    arrVal.forEach(ar => {
+                        titles.push(ar.split(" -> ")[0]);
+                    });
                     const art = articles.filter((article, i) => {
-                        const toStr: String = arrVal[i].toString();
-                        const splitStr = toStr.split(" -> ");
-                        return article.title === splitStr[0];
+                        return titles.includes(article.title);
                     });
                     this.storage.deleteAll(art);
                     console.log(
