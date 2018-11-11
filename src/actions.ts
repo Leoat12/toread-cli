@@ -54,12 +54,23 @@ export class Actions {
         );
     }
 
-    static updateArticle(id: number, addTags: boolean, description?: string, tags?: string, status?: Status): void{
-        
+    static updateArticle(
+        id: number,
+        addTags: boolean,
+        description?: string,
+        tags?: string,
+        status?: Status
+    ): void {
         let tagsArray = tags ? tags.split(",") : undefined;
-        let updatedArticle = this.storage.updateArticle(id, addTags, description, tagsArray, status);
+        let updatedArticle = this.storage.updateArticle(
+            id,
+            addTags,
+            description,
+            tagsArray,
+            status
+        );
 
-        if(updatedArticle){
+        if (updatedArticle) {
             Display.printArticle(updatedArticle, PresentationMode.ONE);
         } else {
             Display.printUpdateErrorMessage(id);
@@ -69,7 +80,6 @@ export class Actions {
     static deleteArticle(id: number) {
         let result: boolean = this.storage.deleteArticle(id);
         Display.printDeleteArticleMessage(result, id);
-        
     }
 
     static clearArticles(): void {
@@ -85,10 +95,7 @@ export class Actions {
         } else {
             articles.forEach(article => {
                 const obj = {
-                    name:
-                        article.title +
-                        " -> " +
-                        colors.red(article.status)
+                    name: article.title + " -> " + colors.red(article.status)
                 };
                 question.push(obj);
             });
@@ -109,10 +116,10 @@ export class Actions {
                 ])
                 .then(answers => {
                     const value = Object.values(answers);
-                    const arrVal : string[] = Object.values(value[0]);
+                    const arrVal: string[] = Object.values(value[0]);
                     let titles: string[] = [];
                     arrVal.forEach(ar => {
-                        titles.push(ar.split(" -> ")[0])
+                        titles.push(ar.split(" -> ")[0]);
                     });
                     const art = articles.filter((article, i) => {
                         return titles.includes(article.title);
@@ -120,6 +127,52 @@ export class Actions {
                     art.forEach(article => {
                         opn(article.url);
                     });
+                });
+        }
+    }
+    static deleteAll(): void {
+        const articles: Article[] = this.storage.getArticles();
+        let question: any[] = [];
+        if (articles.length < 1) {
+            console.log("%s", colors.red("You don't have articles to delete."));
+        } else {
+            articles.forEach(article => {
+                const obj = {
+                    name:
+                        article.title +
+                        " -> " +
+                        colors.blue.underline(article.url)
+                };
+                question.push(obj);
+            });
+            inquirer
+                .prompt([
+                    {
+                        type: "checkbox",
+                        message: "Select Articles to open",
+                        name: "articles",
+                        choices: [...question],
+                        validate: function(answer) {
+                            if (answer.length < 1) {
+                                return "You must choose at least one article.";
+                            }
+                            return true;
+                        }
+                    }
+                ])
+                .then(answers => {
+                    const value = Object.values(answers);
+                    const arrVal = Object.values(value[0]);
+                    const art = articles.filter((article, i) => {
+                        const toStr: String = arrVal[i].toString();
+                        const splitStr = toStr.split(" -> ");
+                        return article.title === splitStr[0];
+                    });
+                    this.storage.deleteAll(art);
+                    console.log(
+                        "%s",
+                        colors.blue("The selected articles has been deleted")
+                    );
                 });
         }
     }

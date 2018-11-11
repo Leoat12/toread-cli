@@ -147,3 +147,13 @@ test("delete", () => {
         fail("Article not deleted");
     }
 });
+
+test("clearStorage", () => {
+    let storage = new Storage();
+    storage.clearArticles();
+    if (!fs.existsSync("file.json")) {
+        expect(fs.existsSync("file.json")).toBe(false);
+    } else {
+        fail("Storage not deleted");
+    }
+});

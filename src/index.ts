@@ -75,4 +75,11 @@ Commander.command("opens")
         Actions.openAll();
     });
 
+Commander.command("delete")
+    .alias("dlt")
+    .description("Delete the selected article.")
+    .action(() => {
+        Actions.deleteAll();
+    });
+
 Commander.parse(process.argv);
