@@ -37,14 +37,14 @@ Commander.command("updateArticle <id>")
     .option("-t, --tags <tags>", "Tags separated by comma.")
     .option(
         "-a, --addTags <addTags>",
-        "Whether or not the tags given will be deleted (false) or added (true)",
+        "Whether or not the tags given will be deleted (false) or added (true)"
     )
     .option(
         "-s, --status <status>",
-        "The status of article: 'TO READ', 'READING' or 'READ'",
+        "The status of article: 'TO READ', 'READING' or 'READ'"
     )
     .description(
-        "Update an article's information. Only description, tags and status can be changed.",
+        "Update an article's information. Only description, tags and status can be changed."
     )
     .action((id: number, cmd: Command) => {
         const description: string = cmd.opts()["information"];

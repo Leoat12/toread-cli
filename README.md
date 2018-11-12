@@ -65,10 +65,10 @@ $ to-read <action>
 - Open an article in your default browser using its ID.
 - Update article tags and information.
 - Delete article by selecting it. So, we don't need to know the id of each article.
+- Update an article with a status: "TO READ", "READING", "READ", among others.
 
 ## Features To Develop
 
-- Update an article with a status: "To Read", "Reading", "Read", among others.
 - Search by tags.
 - Archive articles.
 - Backup to the cloud (Google Drive or any other storage service).
