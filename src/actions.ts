@@ -28,7 +28,7 @@ export class Actions {
         else Display.printOpenErrorMessage();
     }
 
-    static saveArticle(url: string, description: string, tags?: string): void {
+    static async saveArticle(url: string, description: string, tags?: string) {
         RxHR.get(url).subscribe(
             (data: any) => {
                 if (data.response.statusCode === 200) {
@@ -134,7 +134,7 @@ export class Actions {
         const articles: Article[] = this.storage.getArticles();
         let question: any[] = [];
         if (articles.length < 1) {
-            console.log("%s", colors.red("You don't have articles to delete."));
+            Display.printDeleteAllErrorMessage();
         } else {
             articles.forEach(article => {
                 const obj = {
@@ -171,7 +171,7 @@ export class Actions {
                         return titles.includes(article.title);
                     });
                     this.storage.deleteAll(art);
-                    console.log(
+                    console.info(
                         "%s",
                         colors.blue("The selected articles has been deleted")
                     );

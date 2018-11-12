@@ -95,6 +95,10 @@ export class Display {
     }
 
     static printOpenAllErrorMessage() {
-        console.log("%s", colors.red("You don't have articles to open."));
+        console.info("%s", colors.red("You don't have articles to open."));
+    }
+
+    static printDeleteAllErrorMessage() {
+        console.info("%s", colors.red("You don't have articles to delete."));
     }
 }
