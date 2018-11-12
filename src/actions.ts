@@ -1,18 +1,18 @@
 import { RxHR } from "@akanass/rx-http-request";
+import colors from "colors";
 import inquirer from "inquirer";
 import { JSDOM } from "jsdom";
-import colors from "colors";
 import opn from "opn";
 
 import { Article, Status } from "./article";
-import { Storage } from "./storage";
 import { Display, PresentationMode } from "./display";
+import { Storage } from "./storage";
 
 export class Actions {
-    static storage: Storage = new Storage();
+    public static storage: Storage = new Storage();
 
-    static getArticles(): void {
-        let articles: Article[] = this.storage.getArticles();
+    public static getArticles(): void {
+        const articles: Article[] = this.storage.getArticles();
         if (articles.length < 1) {
             Display.printGetArticlesErrorMessage();
         } else {
@@ -22,24 +22,33 @@ export class Actions {
         }
     }
 
-    static openArticle(id: number): void {
-        let article = this.storage.getArticle(id);
-        if (article) opn(article.url);
-        else Display.printOpenErrorMessage();
+    public static openArticle(id: number): void {
+        const article = this.storage.getArticle(id);
+        if (article) {
+            opn(article.url).then(() =>
+                console.info("Article opened in your default browser.")
+            );
+        } else {
+            Display.printOpenErrorMessage();
+        }
     }
 
-    static async saveArticle(url: string, description: string, tags?: string) {
+    public static saveArticle(
+        url: string,
+        description: string,
+        tags?: string
+    ): void {
         RxHR.get(url).subscribe(
             (data: any) => {
                 if (data.response.statusCode === 200) {
-                    let window = new JSDOM(data.body).window;
-                    let title = window.document.title;
-                    let article: Article = {
-                        title: title,
-                        url: url,
-                        description: description,
+                    const window = new JSDOM(data.body).window;
+                    const title = window.document.title;
+                    const article: Article = {
+                        description,
+                        status: Status.ToRead,
                         tags: tags ? tags.split(",") : [],
-                        status: Status.ToRead
+                        title,
+                        url
                     };
 
                     Actions.storage.saveArticle(article);
@@ -54,15 +63,15 @@ export class Actions {
         );
     }
 
-    static updateArticle(
+    public static updateArticle(
         id: number,
         addTags: boolean,
         description?: string,
         tags?: string,
         status?: Status
     ): void {
-        let tagsArray = tags ? tags.split(",") : undefined;
-        let updatedArticle = this.storage.updateArticle(
+        const tagsArray = tags ? tags.split(",") : undefined;
+        const updatedArticle = this.storage.updateArticle(
             id,
             addTags,
             description,
@@ -77,19 +86,19 @@ export class Actions {
         }
     }
 
-    static deleteArticle(id: number) {
-        let result: boolean = this.storage.deleteArticle(id);
+    public static deleteArticle(id: number) {
+        const result: boolean = this.storage.deleteArticle(id);
         Display.printDeleteArticleMessage(result, id);
     }
 
-    static clearArticles(): void {
-        let result: boolean = this.storage.clearArticles();
+    public static clearArticles(): void {
+        const result: boolean = this.storage.clearArticles();
         Display.printClearAllMessage(result);
     }
 
-    static openAll(): void {
+    public static openAll(): void {
         const articles: Article[] = this.storage.getArticles();
-        let question: any[] = [];
+        const question: any[] = [];
         if (articles.length < 1) {
             Display.printOpenAllErrorMessage();
         } else {
@@ -106,7 +115,7 @@ export class Actions {
                         message: "Select Articles to open",
                         name: "articles",
                         choices: [...question],
-                        validate: function(answer) {
+                        validate(answer) {
                             if (answer.length < 1) {
                                 return "You must choose at least one article.";
                             }
@@ -117,22 +126,28 @@ export class Actions {
                 .then(answers => {
                     const value = Object.values(answers);
                     const arrVal: string[] = Object.values(value[0]);
-                    let titles: string[] = [];
+                    const titles: string[] = [];
                     arrVal.forEach(ar => {
                         titles.push(ar.split(" -> ")[0]);
                     });
-                    const art = articles.filter((article, i) => {
+                    const art = articles.filter(article => {
                         return titles.includes(article.title);
                     });
                     art.forEach(article => {
-                        opn(article.url);
+                        opn(article.url).then(() =>
+                            console.info(
+                                `Article #${
+                                    article.id
+                                } opened in your default browser.`
+                            )
+                        );
                     });
                 });
         }
     }
-    static deleteAll(): void {
+    public static deleteAll(): void {
         const articles: Article[] = this.storage.getArticles();
-        let question: any[] = [];
+        const question: any[] = [];
         if (articles.length < 1) {
             Display.printDeleteAllErrorMessage();
         } else {
@@ -152,7 +167,7 @@ export class Actions {
                         message: "Select Articles to open",
                         name: "articles",
                         choices: [...question],
-                        validate: function(answer) {
+                        validate(answer) {
                             if (answer.length < 1) {
                                 return "You must choose at least one article.";
                             }
@@ -163,11 +178,11 @@ export class Actions {
                 .then(answers => {
                     const value = Object.values(answers);
                     const arrVal: string[] = Object.values(value[0]);
-                    let titles: string[] = [];
+                    const titles: string[] = [];
                     arrVal.forEach(ar => {
                         titles.push(ar.split(" -> ")[0]);
                     });
-                    const art = articles.filter((article, i) => {
+                    const art = articles.filter(article => {
                         return titles.includes(article.title);
                     });
                     this.storage.deleteAll(art);

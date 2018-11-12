@@ -10,5 +10,5 @@ export interface Article {
 export enum Status {
     ToRead = "TO READ",
     Reading = "READING",
-    Read = "READ"
+    Read = "READ",
 }

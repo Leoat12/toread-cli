@@ -1,54 +1,56 @@
-import { Storage } from "../src/storage";
 import * as fs from "fs";
 import { Status } from "../src/article";
+import { Storage } from "../src/storage";
 
 afterEach(() => {
     fs.unlinkSync("file.json");
 });
 
 test("write", () => {
-    let storage = new Storage();
+    const storage = new Storage();
     storage.saveArticle({
-        title: "Teste",
+        title: "Test",
         url: "http://www.example.com",
         description: "Description test",
-        status: Status.ToRead
+        status: Status.ToRead,
     });
     expect(fs.existsSync("file.json")).toBe(true);
 });
 
 test("updateAddingTags", () => {
-    let storage = new Storage();
-    let savedArticle = storage.saveArticle({
-        title: "Teste",
+    const storage = new Storage();
+    const savedArticle = storage.saveArticle({
+        title: "Test",
         url: "http://www.example.com",
         description: "Description test",
         tags: ["Tag1", "Tag2"],
-        status: Status.ToRead
+        status: Status.ToRead,
     });
 
-    if (savedArticle.tags) savedArticle.tags.push("Tag3");
+    if (savedArticle.tags) {
+        savedArticle.tags.push("Tag3");
+    }
     savedArticle.description = "Description test modified";
 
     if (savedArticle.id) {
-        let updatedArticle = storage.updateArticle(
+        const updatedArticle = storage.updateArticle(
             savedArticle.id,
             true,
             savedArticle.description,
-            ["Tag3"]
+            ["Tag3"],
         );
         if (updatedArticle) {
             expect(
                 storage
                     .getArticles()
                     .filter(
-                        a =>
+                        (a) =>
                             updatedArticle != undefined &&
-                            a.id == updatedArticle.id
-                    ).length
+                            a.id == updatedArticle.id,
+                    ).length,
             ).toBe(1);
             expect(updatedArticle.description).toBe(
-                "Description test modified"
+                "Description test modified",
             );
             expect(updatedArticle.tags).toEqual(["Tag1", "Tag2", "Tag3"]);
         } else {
@@ -60,36 +62,36 @@ test("updateAddingTags", () => {
 });
 
 test("updateRemovingTags", () => {
-    let storage = new Storage();
-    let savedArticle = storage.saveArticle({
-        title: "Teste",
+    const storage = new Storage();
+    const savedArticle = storage.saveArticle({
+        title: "Test",
         url: "http://www.example.com",
         description: "Description test",
         tags: ["Tag1", "Tag2"],
-        status: Status.ToRead
+        status: Status.ToRead,
     });
 
     savedArticle.description = "Description test modified";
 
     if (savedArticle.id) {
-        let updatedArticle = storage.updateArticle(
+        const updatedArticle = storage.updateArticle(
             savedArticle.id,
             false,
             savedArticle.description,
-            ["Tag2"]
+            ["Tag2"],
         );
         if (updatedArticle) {
             expect(
                 storage
                     .getArticles()
                     .filter(
-                        a =>
+                        (a) =>
                             updatedArticle != undefined &&
-                            a.id == updatedArticle.id
-                    ).length
+                            a.id == updatedArticle.id,
+                    ).length,
             ).toBe(1);
             expect(updatedArticle.description).toBe(
-                "Description test modified"
+                "Description test modified",
             );
             expect(updatedArticle.tags).toEqual(["Tag1"]);
         } else {
@@ -101,47 +103,47 @@ test("updateRemovingTags", () => {
 });
 
 test("getAll", () => {
-    let storage = new Storage();
+    const storage = new Storage();
     storage.saveArticle({
-        title: "Teste",
+        title: "Test",
         url: "http://www.example.com",
         description: "Description test",
-        status: Status.ToRead
+        status: Status.ToRead,
     });
 
-    let articles = storage.getArticles();
+    const articles = storage.getArticles();
     expect(articles.length).toBe(1);
 });
 
 test("getOne", () => {
-    let storage = new Storage();
+    const storage = new Storage();
     storage.saveArticle({
-        title: "Teste",
+        title: "Test",
         url: "http://www.example.com",
         description: "Description test",
-        status: Status.ToRead
+        status: Status.ToRead,
     });
 
-    let article = storage.getArticle(1);
+    const article = storage.getArticle(1);
     expect(article).toEqual({
         id: 1,
-        title: "Teste",
+        title: "Test",
         description: "Description test",
         url: "http://www.example.com",
-        status: Status.ToRead
+        status: Status.ToRead,
     });
 });
 
 test("delete", () => {
-    let storage = new Storage();
+    const storage = new Storage();
     storage.saveArticle({
-        title: "Teste",
+        title: "Test",
         url: "http://www.example.com",
         description: "Description test",
-        status: Status.ToRead
+        status: Status.ToRead,
     });
     if (storage.deleteArticle(1)) {
-        let articles = storage.getArticles();
+        const articles = storage.getArticles();
         expect(articles.length).toBe(0);
     } else {
         fail("Article not deleted");
@@ -149,7 +151,7 @@ test("delete", () => {
 });
 
 test("clearStorage", () => {
-    let storage = new Storage();
+    const storage = new Storage();
     storage.clearArticles();
     if (!fs.existsSync("file.json")) {
         expect(fs.existsSync("file.json")).toBe(false);

@@ -26,8 +26,8 @@ Commander.command("saveArticle <url>")
     .option("-t, --tags <tags>", "Tags separated by comma.")
     .description("Saves an article.")
     .action((url: string, cmd: Command) => {
-        let description: string = cmd.opts()["information"];
-        let tags: string = cmd.opts()["tags"];
+        const description: string = cmd.opts()["information"];
+        const tags: string = cmd.opts()["tags"];
         Actions.saveArticle(url, description, tags);
     });
 
@@ -37,20 +37,20 @@ Commander.command("updateArticle <id>")
     .option("-t, --tags <tags>", "Tags separated by comma.")
     .option(
         "-a, --addTags <addTags>",
-        "Whether or not the tags given will be deleted (false) or added (true)"
+        "Whether or not the tags given will be deleted (false) or added (true)",
     )
     .option(
         "-s, --status <status>",
-        "The status of article: 'TO READ', 'READING' or 'READ'"
+        "The status of article: 'TO READ', 'READING' or 'READ'",
     )
     .description(
-        "Update an article's information. Only description, tags and status can be changed."
+        "Update an article's information. Only description, tags and status can be changed.",
     )
     .action((id: number, cmd: Command) => {
-        let description: string = cmd.opts()["information"];
-        let tags: string = cmd.opts()["tags"];
-        let addTags: boolean = cmd.opts()["addTags"] == "true" ? true : false;
-        let status: Status = cmd.opts()["status"];
+        const description: string = cmd.opts()["information"];
+        const tags: string = cmd.opts()["tags"];
+        const addTags: boolean = cmd.opts()["addTags"] === "true";
+        const status: Status = cmd.opts()["status"];
         Actions.updateArticle(id, addTags, description, tags, status);
     });
 

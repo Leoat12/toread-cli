@@ -11,56 +11,40 @@ interface FileStructure {
 }
 
 export class Storage {
-    static storageDir = join(os.homedir(), ".toreadcli");
-    static storageFile = join(Storage.storageDir, "storage.json");
-
-    prepareDB() {
-        if (!fs.existsSync(Storage.storageDir)) {
-            fs.mkdirSync(Storage.storageDir);
-        }
-        if (!fs.existsSync(Storage.storageFile)) {
-            let file: FileStructure = { articles: [], index: 0 };
-            fs.writeFileSync(
-                Storage.storageFile,
-                JSON.stringify(file, null, 3)
-            );
-        }
-    }
-
-    getArticles(): Article[] {
+    public getArticles(): Article[] {
         this.prepareDB();
 
-        let file: FileStructure = JSON.parse(
-            fs.readFileSync(Storage.storageFile, "utf8")
+        const file: FileStructure = JSON.parse(
+            fs.readFileSync(this.storageFile, "utf8")
         );
 
         return file.articles;
     }
 
-    getArticle(id: number): Article | undefined {
+    public getArticle(id: number): Article | undefined {
         this.prepareDB();
 
-        let file: FileStructure = JSON.parse(
-            fs.readFileSync(Storage.storageFile, "utf8")
+        const file: FileStructure = JSON.parse(
+            fs.readFileSync(this.storageFile, "utf8")
         );
         return file.articles.find(a => a.id == id);
     }
 
-    saveArticle(article: Article): Article {
+    public saveArticle(article: Article): Article {
         this.prepareDB();
 
-        let file: FileStructure = JSON.parse(
-            fs.readFileSync(Storage.storageFile, "utf8")
+        const file: FileStructure = JSON.parse(
+            fs.readFileSync(this.storageFile, "utf8")
         );
         file.index += 1;
         article.id = file.index;
         file.articles.push(article);
-        fs.writeFileSync(Storage.storageFile, JSON.stringify(file, null, 3));
+        fs.writeFileSync(this.storageFile, JSON.stringify(file, null, 3));
 
         return article;
     }
 
-    updateArticle(
+    public updateArticle(
         id: number,
         addTags: boolean,
         description?: string,
@@ -69,17 +53,19 @@ export class Storage {
     ): Article | undefined {
         this.prepareDB();
 
-        let file: FileStructure = JSON.parse(
-            fs.readFileSync(Storage.storageFile, "utf8")
+        const file: FileStructure = JSON.parse(
+            fs.readFileSync(this.storageFile, "utf8")
         );
-        let existentArticle: Article | undefined = file.articles.find(
+        const existentArticle: Article | undefined = file.articles.find(
             a => a.id == id
         );
 
         if (existentArticle) {
             file.articles = file.articles.filter(a => a.id != id);
 
-            if (description) existentArticle.description = description;
+            if (description) {
+                existentArticle.description = description;
+            }
             if (tags) {
                 if (existentArticle.tags) {
                     if (addTags.valueOf() == true) {
@@ -89,7 +75,7 @@ export class Storage {
                     } else {
                         for (const tag of tags) {
                             existentArticle.tags = existentArticle.tags.filter(
-                                (value, index, arr) => {
+                                value => {
                                     return value !== tag;
                                 }
                             );
@@ -105,13 +91,11 @@ export class Storage {
                 }
             }
 
-            if (status) existentArticle.status = status;
-
+            if (status) {
+                existentArticle.status = status;
+            }
             file.articles.push(existentArticle);
-            fs.writeFileSync(
-                Storage.storageFile,
-                JSON.stringify(file, null, 3)
-            );
+            fs.writeFileSync(this.storageFile, JSON.stringify(file, null, 3));
 
             return existentArticle;
         } else {
@@ -119,54 +103,57 @@ export class Storage {
         }
     }
 
-    deleteArticle(id: number): boolean {
+    public deleteArticle(id: number): boolean {
         this.prepareDB();
 
-        let file: FileStructure = JSON.parse(
-            fs.readFileSync(Storage.storageFile, "utf8")
+        const file: FileStructure = JSON.parse(
+            fs.readFileSync(this.storageFile, "utf8")
         );
 
-        let updatedArticleArray: Article[] = file.articles.filter(
+        const updatedArticleArray: Article[] = file.articles.filter(
             a => a.id != id
         );
 
         if (file.articles.length > updatedArticleArray.length) {
             file.articles = updatedArticleArray;
-            fs.writeFileSync(
-                Storage.storageFile,
-                JSON.stringify(file, null, 3)
-            );
+            fs.writeFileSync(this.storageFile, JSON.stringify(file, null, 3));
             return true;
         } else {
             return false;
         }
     }
 
-    deleteAll(art: Article[]): void {
+    public deleteAll(art: Article[]): void {
         art.forEach(article => {
             this.prepareDB();
 
-            let file: FileStructure = JSON.parse(
-                fs.readFileSync(Storage.storageFile, "utf8")
+            const file: FileStructure = JSON.parse(
+                fs.readFileSync(this.storageFile, "utf8")
             );
-            let updatedArticleArray: Article[] = file.articles.filter(
-                a => a.id != article.id
-            );
-            file.articles = updatedArticleArray;
-            fs.writeFileSync(
-                Storage.storageFile,
-                JSON.stringify(file, null, 3)
-            );
+            file.articles = file.articles.filter(a => a.id != article.id);
+            fs.writeFileSync(this.storageFile, JSON.stringify(file, null, 3));
         });
     }
 
-    clearArticles(): boolean {
-        fs.unlinkSync(Storage.storageFile);
+    public clearArticles(): boolean {
+        fs.unlinkSync(this.storageFile);
 
-        if (!fs.existsSync(Storage.storageFile)) {
+        if (!fs.existsSync(this.storageFile)) {
             return true;
         } else {
             return false;
+        }
+    }
+
+    private storageDir = join(os.homedir(), ".toreadcli");
+    private storageFile = join(this.storageDir, "storage.json");
+    private prepareDB() {
+        if (!fs.existsSync(this.storageDir)) {
+            fs.mkdirSync(this.storageDir);
+        }
+        if (!fs.existsSync(this.storageFile)) {
+            let file: FileStructure = { articles: [], index: 0 };
+            fs.writeFileSync(this.storageFile, JSON.stringify(file, null, 3));
         }
     }
 }
