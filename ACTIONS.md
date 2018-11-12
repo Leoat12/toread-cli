@@ -1,4 +1,4 @@
-> Note: In every action you will see thi symbol " | "and it means an alias of the action. So you can choose which want you want to choose the longer version or short one.
+> Note: In every action you will see this symbol " | "and it means an alias of the action. So you can choose which want you want to choose the longer version or the short one.
 
 #### # `saveArticle <url>`
 
@@ -6,19 +6,21 @@
 $ to-read saveArticle <url> | sa <url>
 ```
 
+> Save an article by url.
+
 ##### \***_Opt_** :
 
 - `--tags <your tags> | -t <your tags>` To add tags to your article, each tag separated by comma.
 
 - `--information <your info> | -i <your info>` To add description to the article.
 
-> You can save some article with this.
-
 #### # `updateArticle <id>`
 
 ```
 $ to-read updateArticle <id> | ua <id>
 ```
+
+> Update the article you saved.
 
 ##### \***_Opt_** :
 
@@ -28,7 +30,7 @@ $ to-read updateArticle <id> | ua <id>
 
 - `--addTags <true/false> | -a <true/false>` To check whether or not you want to add the tags (true) or delete the tags (false) given in `--tags`.
 
-> You can update the article you saved with this.
+- `--status <status> | -s <status>` To add status to your article. The status you can add is, TO READ, READING, and READ. In All Caps.
 
 #### # `list`
 
@@ -36,7 +38,7 @@ $ to-read updateArticle <id> | ua <id>
 $ to-read list | ls
 ```
 
-> With this you can see the list of article you saved.
+> See the list of articles you saved.
 
 #### # `open <id>`
 
@@ -44,7 +46,7 @@ $ to-read list | ls
 $ to-read open <id> | o <id>
 ```
 
-> With this you can open an article on the browser by their id.
+> Open an article on the browser by their id.
 
 #### # `opens`
 
@@ -52,7 +54,7 @@ $ to-read open <id> | o <id>
 $ to-read opens | ops
 ```
 
-> The different between this and `open` is, with this you can select and open multiple article at once without having to type the id or even remember it.
+> Open article by selecting it. You can select more than one articles.
 
 #### # `deleteArticle <id>`
 
@@ -60,7 +62,15 @@ $ to-read opens | ops
 $ to-read deleteArticle <id> | da <id>
 ```
 
-> With this you can delete article by their id.
+> Delete article by their id.
+
+#### # `delete`
+
+```
+$ to-read delete | dlt
+```
+
+> Delete article by selecting it. You can select more than one articles.
 
 #### # `clearStorage`
 
@@ -68,10 +78,16 @@ $ to-read deleteArticle <id> | da <id>
 $ to-read clearStorage | cla
 ```
 
-> Use this if you want to clear all the article in you storage. It will remove all the data you saved.
+> Clear all the articles in you storage. It will remove all the data you saved.
 
 ---
+
+### Info:
 
 Please just ignore the `< >` part.
 
 > Ex. `saveArticle <url>` is same with `saveArticle url`. Change the url with your article's url.
+
+All data will be saved in your home directory.
+
+`~/.toreadcli/storage.json`
