@@ -4,7 +4,7 @@ import { Article } from "./article";
 
 export enum PresentationMode {
     LIST,
-    ONE
+    ONE,
 }
 
 export class Display {
@@ -14,7 +14,7 @@ export class Display {
                 console.info(
                     colors.bold.underline.green(`#${article.id.toString()}`) +
                         colors.bold.underline.green(` ${article.title}`) +
-                        colors.red(` -> ${article.status}`)
+                        colors.red(` -> ${article.status}`),
                 );
                 this.printTags(article.tags);
                 console.info("\n");
@@ -48,8 +48,8 @@ export class Display {
         } else {
             console.error(
                 colors.bold.red(
-                    `An error occurred while getting article information: ${code}`
-                )
+                    `An error occurred while getting article information: ${code}`,
+                ),
             );
         }
     }
@@ -58,14 +58,14 @@ export class Display {
         if (result) {
             console.info(
                 colors.bold.green(
-                    `Article #${id.toString()} deleted successfully`
-                )
+                    `Article #${id.toString()} deleted successfully`,
+                ),
             );
         } else {
             console.info(
                 colors.bold.red(
-                    `An error occurred while deleting the article #${id.toString()}, verify if it exists.`
-                )
+                    `An error occurred while deleting the article #${id.toString()}, verify if it exists.`,
+                ),
             );
         }
     }
@@ -76,8 +76,8 @@ export class Display {
         } else {
             console.info(
                 colors.bold.red(
-                    `An error occurred while removing all articles.`
-                )
+                    `An error occurred while removing all articles.`,
+                ),
             );
         }
     }

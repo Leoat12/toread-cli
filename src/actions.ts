@@ -9,16 +9,14 @@ import { Display, PresentationMode } from "./display";
 import { Storage } from "./storage";
 
 export class Actions {
-    public static storage: Storage = new Storage();
-
     public static getArticles(): void {
         const articles: Article[] = this.storage.getArticles();
         if (articles.length < 1) {
             Display.printGetArticlesErrorMessage();
         } else {
-            articles.forEach(a => {
-                Display.printArticle(a, PresentationMode.LIST);
-            });
+            articles.forEach((a) =>
+                Display.printArticle(a, PresentationMode.LIST),
+            );
         }
     }
 
@@ -26,7 +24,7 @@ export class Actions {
         const article = this.storage.getArticle(id);
         if (article) {
             opn(article.url).then(() =>
-                console.info("Article opened in your default browser.")
+                console.info("Article opened in your default browser."),
             );
         } else {
             Display.printOpenErrorMessage();
@@ -36,7 +34,7 @@ export class Actions {
     public static saveArticle(
         url: string,
         description: string,
-        tags?: string
+        tags?: string,
     ): void {
         RxHR.get(url).subscribe(
             (data: any) => {
@@ -48,7 +46,7 @@ export class Actions {
                         status: Status.ToRead,
                         tags: tags ? tags.split(",") : [],
                         title,
-                        url
+                        url,
                     };
 
                     Actions.storage.saveArticle(article);
@@ -59,7 +57,7 @@ export class Actions {
                     Display.printSaveArticleMessage(data.response.statusCode);
                 }
             },
-            (err: any) => console.error(err) // Show error in console
+            (err: any) => console.error(err), // Show error in console
         );
     }
 
@@ -68,7 +66,7 @@ export class Actions {
         addTags: boolean,
         description?: string,
         tags?: string,
-        status?: Status
+        status?: Status,
     ): void {
         const tagsArray = tags ? tags.split(",") : undefined;
         const updatedArticle = this.storage.updateArticle(
@@ -76,7 +74,7 @@ export class Actions {
             addTags,
             description,
             tagsArray,
-            status
+            status,
         );
 
         if (updatedArticle) {
@@ -102,9 +100,9 @@ export class Actions {
         if (articles.length < 1) {
             Display.printOpenAllErrorMessage();
         } else {
-            articles.forEach(article => {
+            articles.forEach((article) => {
                 const obj = {
-                    name: article.title + " -> " + colors.red(article.status)
+                    name: article.title + " -> " + colors.red(article.status),
                 };
                 question.push(obj);
             });
@@ -120,43 +118,44 @@ export class Actions {
                                 return "You must choose at least one article.";
                             }
                             return true;
-                        }
-                    }
+                        },
+                    },
                 ])
-                .then(answers => {
+                .then((answers) => {
                     const value = Object.values(answers);
                     const arrVal: string[] = Object.values(value[0]);
                     const titles: string[] = [];
-                    arrVal.forEach(ar => {
+                    arrVal.forEach((ar) => {
                         titles.push(ar.split(" -> ")[0]);
                     });
-                    const art = articles.filter(article => {
+                    const art = articles.filter((article) => {
                         return titles.includes(article.title);
                     });
-                    art.forEach(article => {
+                    art.forEach((article) => {
                         opn(article.url).then(() =>
                             console.info(
                                 `Article #${
                                     article.id
-                                } opened in your default browser.`
-                            )
+                                } opened in your default browser.`,
+                            ),
                         );
                     });
                 });
         }
     }
+
     public static deleteAll(): void {
         const articles: Article[] = this.storage.getArticles();
         const question: any[] = [];
         if (articles.length < 1) {
-            Display.printDeleteAllErrorMessage();
+            console.log("%s", colors.red("You don't have articles to delete."));
         } else {
-            articles.forEach(article => {
+            articles.forEach((article) => {
                 const obj = {
                     name:
                         article.title +
                         " -> " +
-                        colors.blue.underline(article.url)
+                        colors.blue.underline(article.url),
                 };
                 question.push(obj);
             });
@@ -172,25 +171,27 @@ export class Actions {
                                 return "You must choose at least one article.";
                             }
                             return true;
-                        }
-                    }
+                        },
+                    },
                 ])
-                .then(answers => {
+                .then((answers) => {
                     const value = Object.values(answers);
                     const arrVal: string[] = Object.values(value[0]);
                     const titles: string[] = [];
-                    arrVal.forEach(ar => {
+                    arrVal.forEach((ar) => {
                         titles.push(ar.split(" -> ")[0]);
                     });
-                    const art = articles.filter(article => {
+                    const art = articles.filter((article) => {
                         return titles.includes(article.title);
                     });
                     this.storage.deleteAll(art);
-                    console.info(
+                    console.log(
                         "%s",
-                        colors.blue("The selected articles has been deleted")
+                        colors.blue("The selected articles has been deleted"),
                     );
                 });
         }
     }
+
+    private static storage: Storage = new Storage();
 }
