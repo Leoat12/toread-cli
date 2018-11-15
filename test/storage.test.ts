@@ -4,7 +4,9 @@ import { Storage } from "../src/storage";
 
 afterEach(() => {
     const storage = new Storage();
-    fs.unlinkSync(storage.storageFile);
+    if (fs.existsSync(storage.storageFile)) {
+        fs.unlinkSync(storage.storageFile);
+    }
 });
 
 test("write", () => {
@@ -153,6 +155,13 @@ test("delete", () => {
 
 test("clearStorage", () => {
     const storage = new Storage();
+    storage.saveArticle({
+        title: "Test",
+        url: "http://www.example.com",
+        description: "Description test",
+        tags: ["Tag1", "Tag2"],
+        status: Status.ToRead,
+    });
     storage.clearArticles();
     if (!fs.existsSync(storage.storageFile)) {
         expect(fs.existsSync(storage.storageFile)).toBe(false);
