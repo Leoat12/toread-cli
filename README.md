@@ -48,6 +48,7 @@ $ to-read <action>
 - [`open <id>`](./ACTIONS.md#-open-id)
 - [`opens`](./ACTIONS.md#-opens)
 - [`deleteArticle <id>`](./ACTIONS.md#-deletearticle-id)
+- [`delete`](./ACTIONS.md#-delete)
 - [`clearStorage`](./ACTIONS.md#-clearstorage)
 
 > You can click the action to see full docs of the action or you can go [here to see the full documentation](./ACTIONS.md "LIST OF ACTIONS").
@@ -62,13 +63,14 @@ $ to-read <action>
 - Open multiple article at once.
 - Delete an article.
 - Open an article in your default browser using its ID.
-- Update an article with a status: "To Read", "Reading", "Read", among others.
+- Update article tags and information.
+- Delete article by selecting it. So, we don't need to know the id of each article.
+- Update an article with a status: "TO READ", "READING", "READ", among others.
 
-### Features to be developed
+## Features To Develop
 
 - Search by tags.
 - Archive articles.
-- Delete article by selecting it. So, we don't need to know the id of each article.
 - Backup to the cloud (Google Drive or any other storage service).
 - Sync your articles through multiple PCs.
 - Make the styling more cool.

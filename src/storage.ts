@@ -1,6 +1,9 @@
 import * as fs from "fs";
+import os from "os";
+import path from "path";
+import { Article, Status } from "./article";
 
-import {Article, Status} from "./article";
+const { join } = path;
 
 interface FileStructure {
     articles: Article[];
@@ -8,11 +11,13 @@ interface FileStructure {
 }
 
 export class Storage {
+    public storageDir = join(os.homedir(), ".toreadcli");
+    public storageFile = join(this.storageDir, "storage.json");
     public getArticles(): Article[] {
         this.prepareDB();
 
         const file: FileStructure = JSON.parse(
-            fs.readFileSync("file.json", "utf8"),
+            fs.readFileSync(this.storageFile, "utf8"),
         );
 
         return file.articles;
@@ -22,7 +27,7 @@ export class Storage {
         this.prepareDB();
 
         const file: FileStructure = JSON.parse(
-            fs.readFileSync("file.json", "utf8"),
+            fs.readFileSync(this.storageFile, "utf8"),
         );
         return file.articles.find((a) => a.id == id);
     }
@@ -31,12 +36,12 @@ export class Storage {
         this.prepareDB();
 
         const file: FileStructure = JSON.parse(
-            fs.readFileSync("file.json", "utf8"),
+            fs.readFileSync(this.storageFile, "utf8"),
         );
         file.index += 1;
         article.id = file.index;
         file.articles.push(article);
-        fs.writeFileSync("file.json", JSON.stringify(file));
+        fs.writeFileSync(this.storageFile, JSON.stringify(file, null, 3));
 
         return article;
     }
@@ -51,7 +56,7 @@ export class Storage {
         this.prepareDB();
 
         const file: FileStructure = JSON.parse(
-            fs.readFileSync("file.json", "utf8"),
+            fs.readFileSync(this.storageFile, "utf8"),
         );
         const existentArticle: Article | undefined = file.articles.find(
             (a) => a.id == id,
@@ -92,7 +97,7 @@ export class Storage {
                 existentArticle.status = status;
             }
             file.articles.push(existentArticle);
-            fs.writeFileSync("file.json", JSON.stringify(file));
+            fs.writeFileSync(this.storageFile, JSON.stringify(file, null, 3));
 
             return existentArticle;
         } else {
@@ -104,7 +109,7 @@ export class Storage {
         this.prepareDB();
 
         const file: FileStructure = JSON.parse(
-            fs.readFileSync("file.json", "utf8"),
+            fs.readFileSync(this.storageFile, "utf8"),
         );
 
         const updatedArticleArray: Article[] = file.articles.filter(
@@ -113,7 +118,7 @@ export class Storage {
 
         if (file.articles.length > updatedArticleArray.length) {
             file.articles = updatedArticleArray;
-            fs.writeFileSync("file.json", JSON.stringify(file));
+            fs.writeFileSync(this.storageFile, JSON.stringify(file, null, 3));
             return true;
         } else {
             return false;
@@ -125,29 +130,29 @@ export class Storage {
             this.prepareDB();
 
             const file: FileStructure = JSON.parse(
-                fs.readFileSync("file.json", "utf8"),
+                fs.readFileSync(this.storageFile, "utf8"),
             );
-            file.articles = file.articles.filter(
-                (a) => a.id != article.id,
-            );
-            fs.writeFileSync("file.json", JSON.stringify(file));
+            file.articles = file.articles.filter((a) => a.id != article.id);
+            fs.writeFileSync(this.storageFile, JSON.stringify(file, null, 3));
         });
     }
 
     public clearArticles(): boolean {
-        fs.unlinkSync("./file.json");
+        fs.unlinkSync(this.storageFile);
 
-        if (!fs.existsSync("file.json")) {
+        if (!fs.existsSync(this.storageFile)) {
             return true;
         } else {
             return false;
         }
     }
-
     private prepareDB() {
-        if (!fs.existsSync("file.json")) {
+        if (!fs.existsSync(this.storageDir)) {
+            fs.mkdirSync(this.storageDir);
+        }
+        if (!fs.existsSync(this.storageFile)) {
             const file: FileStructure = { articles: [], index: 0 };
-            fs.writeFileSync("file.json", JSON.stringify(file));
+            fs.writeFileSync(this.storageFile, JSON.stringify(file, null, 3));
         }
     }
 }

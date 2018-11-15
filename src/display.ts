@@ -75,7 +75,9 @@ export class Display {
             console.info(colors.bold.green(`All Articles are deleted.`));
         } else {
             console.info(
-                colors.bold.red(`An error occurred while removing all articles.`),
+                colors.bold.red(
+                    `An error occurred while removing all articles.`,
+                ),
             );
         }
     }
@@ -97,5 +99,9 @@ export class Display {
 
     public static printOpenAllErrorMessage() {
         console.log("%s", colors.red("You don't have articles to open."));
+    }
+
+    public static printDeleteAllErrorMessage() {
+        console.info("%s", colors.red("You don't have articles to delete."));
     }
 }

@@ -9,30 +9,33 @@ import { Display, PresentationMode } from "./display";
 import { Storage } from "./storage";
 
 export class Actions {
-    public static storage: Storage = new Storage();
-
     public static getArticles(): void {
         const articles: Article[] = this.storage.getArticles();
         if (articles.length < 1) {
             Display.printGetArticlesErrorMessage();
         } else {
-            articles.forEach((a) => {
-                Display.printArticle(a, PresentationMode.LIST);
-            });
+            articles.forEach((a) =>
+                Display.printArticle(a, PresentationMode.LIST),
+            );
         }
     }
 
     public static openArticle(id: number): void {
         const article = this.storage.getArticle(id);
         if (article) {
-            opn(article.url).then(
-                () => console.info("Article opened in your default browser."));
+            opn(article.url).then(() =>
+                console.info("Article opened in your default browser."),
+            );
         } else {
             Display.printOpenErrorMessage();
         }
     }
 
-    public static saveArticle(url: string, description: string, tags?: string): void {
+    public static saveArticle(
+        url: string,
+        description: string,
+        tags?: string,
+    ): void {
         RxHR.get(url).subscribe(
             (data: any) => {
                 if (data.response.statusCode === 200) {
@@ -129,12 +132,18 @@ export class Actions {
                         return titles.includes(article.title);
                     });
                     art.forEach((article) => {
-                        opn(article.url).then(
-                            () => console.info(`Article #${article.id} opened in your default browser.`));
+                        opn(article.url).then(() =>
+                            console.info(
+                                `Article #${
+                                    article.id
+                                } opened in your default browser.`,
+                            ),
+                        );
                     });
                 });
         }
     }
+
     public static deleteAll(): void {
         const articles: Article[] = this.storage.getArticles();
         const question: any[] = [];
@@ -183,4 +192,6 @@ export class Actions {
                 });
         }
     }
+
+    private static storage: Storage = new Storage();
 }

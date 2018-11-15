@@ -3,7 +3,10 @@ import { Status } from "../src/article";
 import { Storage } from "../src/storage";
 
 afterEach(() => {
-    fs.unlinkSync("file.json");
+    const storage = new Storage();
+    if (fs.existsSync(storage.storageFile)) {
+        fs.unlinkSync(storage.storageFile);
+    }
 });
 
 test("write", () => {
@@ -14,7 +17,7 @@ test("write", () => {
         description: "Description test",
         status: Status.ToRead,
     });
-    expect(fs.existsSync("file.json")).toBe(true);
+    expect(fs.existsSync(storage.storageFile)).toBe(true);
 });
 
 test("updateAddingTags", () => {
@@ -152,9 +155,16 @@ test("delete", () => {
 
 test("clearStorage", () => {
     const storage = new Storage();
+    storage.saveArticle({
+        title: "Test",
+        url: "http://www.example.com",
+        description: "Description test",
+        tags: ["Tag1", "Tag2"],
+        status: Status.ToRead,
+    });
     storage.clearArticles();
-    if (!fs.existsSync("file.json")) {
-        expect(fs.existsSync("file.json")).toBe(false);
+    if (!fs.existsSync(storage.storageFile)) {
+        expect(fs.existsSync(storage.storageFile)).toBe(false);
     } else {
         fail("Storage not deleted");
     }
