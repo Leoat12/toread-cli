@@ -82,9 +82,13 @@ export class Display {
         }
     }
 
+    public static printSaveArticleExistingArticleMessage() {
+        const message = "There is already an article with the same URL in your list!";
+        console.info(colors.bold.red(message));
+    }
+
     public static printOpenErrorMessage() {
-        const message =
-            "The article was not found. Verify the ID of the article.";
+        const message = "The article was not found. Verify the ID of the article.";
         console.info(colors.bold.red(message));
     }
 

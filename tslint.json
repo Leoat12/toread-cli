@@ -5,6 +5,7 @@
     "object-literal-sort-keys": false,
     "interface-name": false,
     "no-string-literal": false,
-    "triple-equals": false
+    "triple-equals": false,
+    "no-trailing-whitespace": false
   }
 }

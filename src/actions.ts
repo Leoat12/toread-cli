@@ -36,6 +36,14 @@ export class Actions {
         description: string,
         tags?: string,
     ): void {
+
+        const existingArticle = this.storage.getArticleByUrl(url);
+
+        if (existingArticle) {
+            Display.printSaveArticleExistingArticleMessage();
+            return;
+        }
+
         RxHR.get(url).subscribe(
             (data: any) => {
                 if (data.response.statusCode === 200) {

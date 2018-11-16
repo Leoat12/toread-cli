@@ -66,6 +66,7 @@ $ to-read <action>
 - Update article tags and information.
 - Delete article by selecting it. So, we don't need to know the id of each article.
 - Update an article with a status: "TO READ", "READING", "READ", among others.
+- Verify an article exists in the list and if so it warns the user and don't save again.
 
 ## Features To Develop
 

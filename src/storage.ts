@@ -32,6 +32,16 @@ export class Storage {
         return file.articles.find((a) => a.id == id);
     }
 
+    public getArticleByUrl(url: string): Article | undefined {
+        this.prepareDB();
+
+        const file: FileStructure = JSON.parse(
+            fs.readFileSync(this.storageFile, "utf8"),
+        );
+
+        return file.articles.find((a) => a.url == url);
+    }
+
     public saveArticle(article: Article): Article {
         this.prepareDB();
 
