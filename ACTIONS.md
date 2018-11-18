@@ -40,6 +40,14 @@ $ to-read list | ls
 
 > See the list of articles you saved.
 
+#### # `searchTag`
+
+```
+$ to-read searchTag | st
+```
+
+> See the list of articles that have the given tag.
+
 #### # `open <id>`
 
 ```

@@ -1,16 +1,27 @@
-import { RxHR } from "@akanass/rx-http-request";
+import {RxHR} from "@akanass/rx-http-request";
 import colors from "colors";
 import inquirer from "inquirer";
-import { JSDOM } from "jsdom";
+import {JSDOM} from "jsdom";
 import opn from "opn";
 
-import { Article, Status } from "./article";
-import { Display, PresentationMode } from "./display";
-import { Storage } from "./storage";
+import {Article, Status} from "./article";
+import {Display, PresentationMode} from "./display";
+import {Storage} from "./storage";
 
 export class Actions {
     public static getArticles(): void {
         const articles: Article[] = this.storage.getArticles();
+        if (articles.length < 1) {
+            Display.printGetArticlesErrorMessage();
+        } else {
+            articles.forEach((a) =>
+                Display.printArticle(a, PresentationMode.LIST),
+            );
+        }
+    }
+
+    public static getArticlesByTag(tag: string): void {
+        const articles: Article[] = this.storage.getArticlesByTag(tag);
         if (articles.length < 1) {
             Display.printGetArticlesErrorMessage();
         } else {

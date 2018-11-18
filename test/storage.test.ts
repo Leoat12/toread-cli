@@ -1,6 +1,6 @@
 import * as fs from "fs";
-import { Status } from "../src/article";
-import { Storage } from "../src/storage";
+import {Status} from "../src/article";
+import {Storage} from "../src/storage";
 
 afterEach(() => {
     const storage = new Storage();
@@ -168,4 +168,29 @@ test("clearStorage", () => {
     } else {
         fail("Storage not deleted");
     }
+});
+
+test( "getArticleByTag", () => {
+
+    const storage = new Storage();
+    storage.saveArticle({
+        title: "Test",
+        url: "http://www.example.com",
+        description: "Description test",
+        tags: ["Tag1", "Tag2"],
+        status: Status.ToRead,
+    });
+
+    storage.saveArticle({
+        title: "Test2",
+        url: "http://www.example2.com",
+        description: "Description test2",
+        tags: ["Tag3", "Tag4"],
+        status: Status.ToRead,
+    });
+
+    const articlesFound = storage.getArticlesByTag("Tag3");
+
+    expect(articlesFound.length).toBe(1);
+    expect(articlesFound[0].title).toBe("Test2");
 });

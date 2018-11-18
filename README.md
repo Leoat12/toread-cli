@@ -45,6 +45,7 @@ $ to-read <action>
 - [`saveArticle <url>`](./ACTIONS.md#-savearticle-url)
 - [`updateArticle <id>`](./ACTIONS.md#-updatearticle-id)
 - [`list`](./ACTIONS.md#-list)
+- [`searchTags`](./ACTIONS.md#-searchtag)
 - [`open <id>`](./ACTIONS.md#-open-id)
 - [`opens`](./ACTIONS.md#-opens)
 - [`deleteArticle <id>`](./ACTIONS.md#-deletearticle-id)
@@ -67,10 +68,10 @@ $ to-read <action>
 - Delete article by selecting it. So, we don't need to know the id of each article.
 - Update an article with a status: "TO READ", "READING", "READ", among others.
 - Verify an article exists in the list and if so it warns the user and don't save again.
+- Search by tags.
 
 ## Features To Develop
 
-- Search by tags.
 - Archive articles.
 - Backup to the cloud (Google Drive or any other storage service).
 - Sync your articles through multiple PCs.

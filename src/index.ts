@@ -13,6 +13,13 @@ Commander.command("list")
     Actions.getArticles();
   });
 
+Commander.command("searchTag <tag>")
+    .alias("st")
+    .description("Search articles by the tag given")
+    .action((tag: string) => {
+       Actions.getArticlesByTag(tag);
+    });
+
 Commander.command("open <id>")
   .alias("o")
   .description("Open the article in the default browser.")
