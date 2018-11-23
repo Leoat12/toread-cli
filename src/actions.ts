@@ -34,7 +34,7 @@ export class Actions {
     public static openArticle(id: number): void {
         const article = this.storage.getArticle(id);
         if (article) {
-            opn(article.url).then(() =>
+            opn(article.url, {wait: false}).then(() =>
                 console.info("Article opened in your default browser."),
             );
         } else {
@@ -151,7 +151,7 @@ export class Actions {
                         return titles.includes(article.title);
                     });
                     art.forEach((article) => {
-                        opn(article.url).then(() =>
+                        opn(article.url, {wait: false}).then(() =>
                             console.info(
                                 `Article #${
                                     article.id
