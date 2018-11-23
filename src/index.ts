@@ -89,4 +89,8 @@ Commander.command("delete")
     Actions.deleteAll();
   });
 
+if (!process.argv.slice(2).length) {
+    Commander.help();
+}
+
 Commander.parse(process.argv);
