@@ -1,6 +1,7 @@
 import colors from "colors";
 
-import { Article } from "./article";
+import {Article} from "./article";
+import * as inquirer from "inquirer";
 
 export enum PresentationMode {
     LIST,
@@ -13,8 +14,8 @@ export class Display {
             if (article.id) {
                 console.info(
                     colors.bold.underline.green(`#${article.id.toString()}`) +
-                        colors.bold.underline.green(` ${article.title}`) +
-                        colors.red(` -> ${article.status}`),
+                    colors.bold.underline.green(` ${article.title}`) +
+                    colors.red(` -> ${article.status}`),
                 );
                 this.printTags(article.tags);
                 console.info("\n");
@@ -80,6 +81,10 @@ export class Display {
                 ),
             );
         }
+    }
+
+    public static printArticleCount(count: number) {
+        console.info(count);
     }
 
     public static printSaveArticleExistingArticleMessage() {
