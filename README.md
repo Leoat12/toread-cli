@@ -21,7 +21,7 @@ $ git clone https://github.com/Leoat12/toread-cli.git
 3. Run this :
 
 ```
-$ cd toread-cli && npm install
+$ cd toread-cli && npm install && npm run build
 ```
 
 4. Then install it as npm package :

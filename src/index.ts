@@ -89,4 +89,12 @@ Commander.command("delete")
     Actions.deleteAll();
   });
 
+Commander.on("command:*", () => {
+    console.error("Invalid command: %s\nSee --help for a list of available commands.", Commander.args.join(" "));
+});
+
+if (!process.argv.slice(2).length) {
+    Commander.help();
+}
+
 Commander.parse(process.argv);
