@@ -40,6 +40,10 @@ $ to-read list | ls
 
 > See the list of articles you saved.
 
+##### \***_Opt_** :
+
+- `--count | -c` Retrieve a number of the amount of articles still left to read.
+
 #### # `searchTag`
 
 ```

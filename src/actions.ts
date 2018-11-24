@@ -9,8 +9,14 @@ import {Display, PresentationMode} from "./display";
 import {Storage} from "./storage";
 
 export class Actions {
-    public static getArticles(): void {
+    public static getArticles(options: { count: number }): void {
         const articles: Article[] = this.storage.getArticles();
+
+        if (options.count) {
+            Display.printArticleCount(articles.length);
+            return;
+        }
+
         if (articles.length < 1) {
             Display.printGetArticlesErrorMessage();
         } else {
@@ -155,7 +161,7 @@ export class Actions {
                             console.info(
                                 `Article #${
                                     article.id
-                                } opened in your default browser.`,
+                                    } opened in your default browser.`,
                             ),
                         );
                     });
