@@ -1,7 +1,6 @@
 import colors from "colors";
 
 import {Article} from "./article";
-import * as inquirer from "inquirer";
 
 export enum PresentationMode {
     LIST,
