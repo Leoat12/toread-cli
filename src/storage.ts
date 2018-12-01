@@ -11,8 +11,11 @@ interface FileStructure {
 }
 
 export class Storage {
+
     public storageDir = join(os.homedir(), ".toreadcli");
     public storageFile = join(this.storageDir, "storage.json");
+    public archiveFile = join(this.storageDir, "archive.json");
+
     public getArticles(): Article[] {
         this.prepareDB();
 
@@ -144,6 +147,22 @@ export class Storage {
         });
     }
 
+    public archiveArticle(id: number): boolean {
+        this.prepareDB();
+
+        const article = this.getArticle(id);
+
+        if (article) {
+            const archive: FileStructure = this.getArchiveData();
+            archive.articles.push(article);
+            fs.writeFileSync(this.archiveFile, JSON.stringify(archive, null, 3));
+            this.deleteArticle(id);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public clearArticles(): boolean {
         fs.unlinkSync(this.storageFile);
 
@@ -157,9 +176,17 @@ export class Storage {
             const file: FileStructure = { articles: [], index: 0 };
             fs.writeFileSync(this.storageFile, JSON.stringify(file, null, 3));
         }
+        if (!fs.existsSync(this.archiveFile)) {
+            const file: FileStructure = { articles: [], index: 0 };
+            fs.writeFileSync(this.archiveFile, JSON.stringify(file, null, 3));
+        }
     }
 
     private getFileData(): FileStructure {
         return JSON.parse(fs.readFileSync(this.storageFile, "utf8"));
+    }
+
+    private getArchiveData(): FileStructure {
+        return JSON.parse(fs.readFileSync(this.archiveFile, "utf8"));
     }
 }

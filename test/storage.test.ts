@@ -194,3 +194,20 @@ test( "getArticleByTag", () => {
     expect(articlesFound.length).toBe(1);
     expect(articlesFound[0].title).toBe("Test2");
 });
+
+test("archiveArticle", () => {
+
+    const storage = new Storage();
+    storage.saveArticle({
+        title: "Test",
+        url: "http://www.example.com",
+        description: "Description test",
+        tags: ["Tag1", "Tag2"],
+        status: Status.ToRead,
+    });
+
+    const isArchived = storage.archiveArticle(1);
+
+    expect(isArchived).toBe(true);
+    expect(storage.getArticles().length).toBe(0);
+});
