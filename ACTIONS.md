@@ -84,6 +84,14 @@ $ to-read delete | dlt
 
 > Delete article by selecting it. You can select more than one articles.
 
+#### # `archiveArticle`
+
+```
+$ to-read archiveArticle | aa
+```
+
+> Archive an article by its id.
+
 #### # `clearStorage`
 
 ```

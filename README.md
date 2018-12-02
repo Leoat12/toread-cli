@@ -50,6 +50,7 @@ $ to-read <action>
 - [`opens`](./ACTIONS.md#-opens)
 - [`deleteArticle <id>`](./ACTIONS.md#-deletearticle-id)
 - [`delete`](./ACTIONS.md#-delete)
+- [`archiveArticle`](./ACTIONS.md#-archivearticle)
 - [`clearStorage`](./ACTIONS.md#-clearstorage)
 
 > You can click the action to see full docs of the action or you can go [here to see the full documentation](./ACTIONS.md "LIST OF ACTIONS").
@@ -69,10 +70,12 @@ $ to-read <action>
 - Update an article with a status: "TO READ", "READING", "READ", among others.
 - Verify an article exists in the list and if so it warns the user and don't save again.
 - Search by tags.
+- Archive articles.
 
 ## Features To Develop
 
-- Archive articles.
+- Show archived articles.
+- Delete and clear archive articles.
 - Backup to the cloud (Google Drive or any other storage service).
 - Sync your articles through multiple PCs.
 - Make the styling more cool.
