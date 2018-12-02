@@ -70,6 +70,22 @@ export class Display {
         }
     }
 
+    public static printArchiveArticleMessage(result: boolean, id: number){
+        if (result) {
+            console.info(
+                colors.bold.green(
+                    `Article #${id.toString()} archived successfully`,
+                ),
+            );
+        } else {
+            console.info(
+                colors.bold.red(
+                    `An error occurred while archiving the article #${id.toString()}, verify if it exists.`,
+                ),
+            );
+        }
+    }
+
     public static printClearAllMessage(result: boolean) {
         if (result) {
             console.info(colors.bold.green(`All Articles are deleted.`));

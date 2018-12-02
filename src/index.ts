@@ -62,6 +62,13 @@ Commander.command("updateArticle <id>")
         Actions.updateArticle(id, addTags, description, tags, status);
     });
 
+Commander.command("archiveArticle <id>")
+    .alias("aa")
+    .description("Archive an article with the given ID.")
+    .action((id: number) => {
+       Actions.archiveArticle(id);
+    });
+
 Commander.command("deleteArticle <id>")
     .alias("da")
     .description("Delete the article with the given ID")

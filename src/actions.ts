@@ -114,6 +114,11 @@ export class Actions {
         Display.printDeleteArticleMessage(result, id);
     }
 
+    public static archiveArticle(id: number) {
+        const result: boolean = this.storage.archiveArticle(id);
+        Display.printArchiveArticleMessage(result, id);
+    }
+
     public static clearArticles(): void {
         const result: boolean = this.storage.clearArticles();
         Display.printClearAllMessage(result);
